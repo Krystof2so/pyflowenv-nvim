@@ -2,7 +2,7 @@
 
 `pyflowenv-nvim` est un plugin Neovim écrit en Lua, conçu pour créer rapidement la structure d’un projet Python, avec un environnement virtuel (`venv`) isolé et un fichier `.gitignore` adapté.
 
-Ce plugin est particulièrement utile pour les développeurs Python qui souhaitent initialiser un projet léger directement depuis Neovim, sans avoir à créer manuellement la structure de base.
+Ce plugin est particulièrement utile pour initialiser un projet Python léger directement depuis Neovim, sans avoir à créer manuellement la structure de base.
 
 ---
 
