@@ -48,7 +48,7 @@ Vous pouvez utiliser le plugin de deux manières :
 ### 1. Commande utilisateur
 
 ```vim
-:CreatePythonProject
+:CreatePythonVenv
 ```
 
 ### 2. Appel direct en Lua
