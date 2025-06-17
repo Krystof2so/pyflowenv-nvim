@@ -77,6 +77,10 @@ function M.create_popup_with_input(callback)
     if vim.api.nvim_win_is_valid(win) then
       vim.api.nvim_win_close(win, true)
     end
+    -- Supprimer le tampon après utilisation :
+    if vim.api.nvim_buf_is_valid(buf) then
+      vim.api.nvim_buf_delete(buf, { force = true })
+    end
     if callback then
       callback(input, M.create_popup({}))
     end
