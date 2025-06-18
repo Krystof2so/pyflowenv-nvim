@@ -1,11 +1,11 @@
--- *********************
--- *** init.lua (plugin principal) ***
--- *********************
+-- ****************
+-- *** init.lua ***
+-- ****************
 
 ---@diagnostic disable: undefined-field
 
 local M = {}
-local ui = require("pyflowenv.ui")
+local ui = require("pyflowenv.ui.ui_init")
 
 
 -- Configuration utilisateur (optionnelle)
