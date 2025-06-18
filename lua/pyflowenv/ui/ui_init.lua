@@ -7,10 +7,13 @@
 -- ***************************************************************
 
 local utils = require("pyflowenv.ui.ui_utils")
+local highlights = require("pyflowenv.ui.ui_highlights")
+
 local M = {}
 
 -- Crée un buffer d'affichage (log, retour utilisateur)
 function M.create_popup(lines)
+  highlights.setup_ui_colors()
   local buf = vim.api.nvim_create_buf(false, true)
   local width = math.floor(vim.o.columns * 0.6)
   local height = math.max(10, #lines + 2)
@@ -47,6 +50,7 @@ end
 
 -- Popup avec saisie utilisateur
 function M.create_popup_with_input(callback)
+  highlights.setup_ui_colors()
   local prompt = "  Nom du projet : "
   local buf = vim.api.nvim_create_buf(false, true)
 

@@ -6,17 +6,8 @@
 -- ***************************************************************
 
 local M = {}
+local hl = require("pyflowenv.ui.ui_highlights")
 
--- Applique des couleurs personnalisées
-function M.set_window_highlights(win)
-  vim.api.nvim_set_hl(0, 'CustomBlueBorder', { fg = '#5E81AC' })
-  vim.api.nvim_set_hl(0, 'CustomYellowTitle', { fg = '#EBCB8B', bold = true })
-
-  vim.api.nvim_set_option_value('winhl',
-    'Normal:Normal,FloatBorder:CustomBlueBorder,FloatTitle:CustomYellowTitle',
-    { win = win }
-  )
-end
 
 -- Calcule la position pour centrer une fenêtre
 function M.get_centered_coords(width, height)
@@ -39,7 +30,9 @@ function M.create_window(buf, opts)
     title_pos = opts.title_pos or "center",
   })
 
-  M.set_window_highlights(win)
+  -- Applique le style défini dans le module de surbrillance
+  vim.api.nvim_set_option_value("winhl", hl.get_winhl_string(), { win = win })
+
   return win
 end
 
