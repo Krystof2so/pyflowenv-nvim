@@ -4,6 +4,11 @@
 
 local M = {}
 
+-- Définir un groupe de surbrillance personnalisé :
+vim.api.nvim_set_hl(0, 'CustomBlueBorder', { fg = '#5E81AC' })  -- Pour une bordure bleue
+-- Définir un groupe de surbrillance personnalisé pour le titre jaune
+vim.api.nvim_set_hl(0, 'CustomYellowTitle', { fg = '#EBCB8B', bold = true })
+
 -- Crée une fenêtre flottante
 function M.create_popup(lines)
   local buf = vim.api.nvim_create_buf(false, true)
@@ -20,10 +25,17 @@ function M.create_popup(lines)
     row = row,
     col = col,
     style = "minimal",
-    border = "rounded",
-    title = "Création d'un projet Python",
+    border = "double",
+    title = " Création d'un projet Python ",
     title_pos = "center",
   })
+
+  -- Appliquer le groupe de surbrillance personnalisé à la bordure et au titre
+  vim.api.nvim_set_option_value(
+        'winhl', 
+        'Normal:Normal,FloatBorder:CustomBlueBorder,FloatTitle:CustomYellowTitle',
+        { win = win }
+  )
 
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
   vim.bo[buf].modifiable = true
@@ -48,11 +60,11 @@ end
 
 -- Popup avec saisie utilisateur
 function M.create_popup_with_input(callback)
-  local prompt = "Nom du projet : "
+  local prompt = " Nom du projet : "
   local buf = vim.api.nvim_create_buf(false, true)
 
   local width = math.floor(vim.o.columns * 0.5)
-  local height = 5
+  local height = 2
   local row = math.floor((vim.o.lines - height) / 2)
   local col = math.floor((vim.o.columns - width) / 2)
 
@@ -67,6 +79,13 @@ function M.create_popup_with_input(callback)
     title = "Création d'un projet Python",
     title_pos = "center",
   })
+
+  -- Appliquer le groupe de surbrillance personnalisé à la bordure et au titre
+  vim.api.nvim_set_option_value(
+        'winhl',
+        'Normal:Normal,FloatBorder:CustomBlueBorder,FloatTitle:CustomYellowTitle',
+        { win = win }
+  )
 
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, { prompt })
   vim.bo[buf].buftype = "prompt"
