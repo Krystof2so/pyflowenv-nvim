@@ -8,6 +8,8 @@
 
 local utils = require("pyflowenv.ui.ui_utils")
 local highlights = require("pyflowenv.ui.ui_highlights")
+local lang = require("pyflowenv.lang").get()
+
 
 local M = {}
 
@@ -25,7 +27,7 @@ function M.create_popup(lines)
     row = row,
     col = col,
     border = "double",
-    title = " Création d'un projet Python ",
+    title = lang.ui.title_ui,
     title_pos = "center",
   })
 
@@ -51,7 +53,7 @@ end
 -- Popup avec saisie utilisateur
 function M.create_popup_with_input(callback)
   highlights.setup_ui_colors()
-  local prompt = "  Nom du projet : "
+  local prompt = lang.ui.prompt
   local buf = vim.api.nvim_create_buf(false, true)
 
   local width = math.floor(vim.o.columns * 0.5)
@@ -64,7 +66,7 @@ function M.create_popup_with_input(callback)
     row = row,
     col = col,
     border = "double",
-    title = " Création d'un projet Python ",
+    title = lang.ui.title_ui,
     title_pos = "center",
   })
 

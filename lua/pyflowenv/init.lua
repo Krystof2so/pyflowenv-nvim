@@ -6,6 +6,7 @@
 
 local M = {}
 local ui = require("pyflowenv.ui.ui_init")
+local lang = require("pyflowenv.lang").get()
 
 
 -- Configuration utilisateur (optionnelle)
@@ -13,6 +14,7 @@ function M.setup(opts)
   opts = opts or {}
   local defaults = {
     venv_dir = ".venv",
+    lang = "fr",
   }
 
   M.options = vim.tbl_deep_extend("force", defaults, opts)
@@ -29,19 +31,19 @@ function M.create_python_project(project_name, buf)
   local current_dir = vim.fn.getcwd()
   local project_dir = current_dir .. "/" .. project_name
 
-  ui.append_lines(buf, { "  🐍 Nom du projet à créer : " .. project_name })
+  ui.append_lines(buf, { lang.ui.prompt .. project_name })
 
   -- Création répertoire si nécessaire
   if dir_exists(project_dir) then
-    ui.append_lines(buf, { "  Le répertoire existe déjà.", "", "  [q] pour quitter..." })
+    ui.append_lines(buf, { lang.errors.dir_exists, "", lang.ui.press_q })
     return
   else
     local mkdir_success = vim.fn.mkdir(project_dir, "p")
     if mkdir_success ~= 1 then
-        ui.append_lines(buf, { "  ❌ Erreur : Impossible de créer le répertoire.", "", "  [q] pour quitter..." })
+        ui.append_lines(buf, { lang.errors.mkdir_failed, "", lang.ui.press_q })
         return
     else
-        ui.append_lines(buf, { "", "  📂 Répertoire créé : " .. project_dir })
+        ui.append_lines(buf, { lang.success.dir_created(project_dir) })
     end
   end
 
@@ -49,10 +51,10 @@ function M.create_python_project(project_name, buf)
   local venv_cmd = string.format("cd '%s' && python3 -m venv %s", project_dir, venv_dir)
   vim.fn.system(venv_cmd)  -- Exécution de la commande de création de l'environnement virtuel
   if vim.v.shell_error ~= 0 then  -- Vérifie si la commande a réussi
-    ui.append_lines(buf, { "  ❌ Erreur création environnement virtuel.", "", "  [q] pour quitter..." })
+    ui.append_lines(buf, { lang.errors.venv_failed, "", lang.ui.press_q })
     return
   else
-    ui.append_lines(buf, { "  ✅ Environnement virtuel créé." })
+    ui.append_lines(buf, { lang.success.venv_created })
   end
 
   local gitignore_path = project_dir .. "/.gitignore"
@@ -78,15 +80,15 @@ __pycache__/
   if f then
     f:write(content)
     f:close()
-    ui.append_lines(buf, { "  ✅ Fichier .gitignore créé." })
+    ui.append_lines(buf, { lang.success.gitignore_created })
   else
-    ui.append_lines(buf, { "  ❌ Erreur création du .gitignore.", "", "  [q] pour quitter..." })
+    ui.append_lines(buf, { lang.errors.gitignore_failed, "", lang.ui.press_q })
     return
   end
 
   ui.append_lines(buf, {
-    "", "  ✅ Projet '" .. project_name .. "' créé.",
-    "", "  [q] pour quitter..."
+    "", lang.success.project_created(project_name),
+    "", lang.ui.press_q
   })
 end
 
@@ -95,9 +97,9 @@ vim.api.nvim_create_user_command("CreatePythonVenv", function()
   ui.create_popup_with_input(function(project_name, buf)
     if not project_name or project_name == "" then
       ui.append_lines(buf, {
-                "  ❌ Aucun nom de projet saisi.", "",
-                "     Abandon 'Création de projet'", "",
-                "", "  [q] pour quitter..."
+                lang.errors.no_project_name, "",
+                lang.ui.cancelled, "",
+                "", lang.ui.press_q
       })
       return
     end
