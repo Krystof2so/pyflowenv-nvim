@@ -8,6 +8,7 @@ local M = {}
 local utils = require("pyflowenv.utils")
 local ui = require("pyflowenv.ui.ui_init")
 local lang = require("pyflowenv.lang").get()
+local gitignore_template = require("pyflowenv.templates.file_gitignore")
 
 
 -- Configuration utilisateur (optionnelle)
@@ -59,27 +60,10 @@ function M.create_python_project(project_name, buf)
   end
 
   local gitignore_path = project_dir .. "/.gitignore"
-  local content = [[
-# Environnement virtuel :
-]] .. venv_dir .. [[
-
-# Fichiers Python compilés :
-__pycache__/
-
-# Fichiers de cache et de logs :
-*.log
-*.cache
-
-# Fichiers de données :
-*.csv
-*.json
-*.sqlite
-*.db
-]]
 
   local f = io.open(gitignore_path, "w")
   if f then
-    f:write(content)
+    f:write(gitignore_template.default_gitignore(venv_dir))
     f:close()
     ui.append_lines(buf, { lang.success.gitignore_created })
   else
