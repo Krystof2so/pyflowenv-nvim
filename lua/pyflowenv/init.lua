@@ -5,6 +5,7 @@
 ---@diagnostic disable: undefined-field
 
 local M = {}
+local utils = require("pyflowenv.utils")
 local ui = require("pyflowenv.ui.ui_init")
 local lang = require("pyflowenv.lang").get()
 
@@ -49,8 +50,8 @@ function M.create_python_project(project_name, buf)
 
   local venv_dir = ".venv"
   local venv_cmd = string.format("cd '%s' && python3 -m venv %s", project_dir, venv_dir)
-  vim.fn.system(venv_cmd)  -- Exécution de la commande de création de l'environnement virtuel
-  if vim.v.shell_error ~= 0 then  -- Vérifie si la commande a réussi
+  local return_code = utils.check_run_in_shell(venv_cmd)  -- Exécution de la commande de création de l'environnement virtuel
+  if not return_code then  -- Vérifie si la commande a rnussi
     ui.append_lines(buf, { lang.errors.venv_failed, "", lang.ui.press_q })
     return
   else
