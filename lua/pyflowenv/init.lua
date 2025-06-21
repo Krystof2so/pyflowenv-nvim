@@ -10,86 +10,87 @@ local ui = require("pyflowenv.ui.ui_init")
 local lang = require("pyflowenv.lang").get()
 local gitignore_template = require("pyflowenv.templates.file_gitignore")
 
+M.options = {
+  venv_dir = ".venv",
+  lang = "fr",
+}
 
--- Configuration utilisateur (optionnelle)
 function M.setup(opts)
-  opts = opts or {}
-  local defaults = {
-    venv_dir = ".venv",
-    lang = "fr",
-  }
-
-  M.options = vim.tbl_deep_extend("force", defaults, opts)
+  M.options = vim.tbl_deep_extend("force", M.options, opts or {})
 end
 
--- Vérifie si un dossier existe
 local function dir_exists(path)
   local stat = vim.loop.fs_stat(path)
   return stat and stat.type == "directory"
 end
 
--- Création du projet Python avec venv
 function M.create_python_project(project_name, buf)
+  local venv_dir = M.options.venv_dir or ".venv"
   local current_dir = vim.fn.getcwd()
   local project_dir = current_dir .. "/" .. project_name
 
-  ui.append_lines(buf, { lang.ui.prompt .. project_name })
+  -- Affiche le prompt initial
+  --ui.append_lines(buf, { lang.ui.prompt .. project_name })
 
-  -- Création répertoire si nécessaire
   if dir_exists(project_dir) then
-    ui.append_lines(buf, { lang.errors.dir_exists, "", lang.ui.press_q })
+    ui.append_lines(buf, { "", lang.errors.dir_exists, "", lang.ui.press_q })
     return
-  else
-    local mkdir_success = vim.fn.mkdir(project_dir, "p")
-    if mkdir_success ~= 1 then
-        ui.append_lines(buf, { lang.errors.mkdir_failed, "", lang.ui.press_q })
-        return
-    else
-        ui.append_lines(buf, { lang.success.dir_created(project_dir) })
-    end
   end
 
-  local venv_dir = ".venv"
+  -- Création dossier
+  local mkdir_success = vim.fn.mkdir(project_dir, "p")
+  if mkdir_success ~= 1 then
+    ui.append_lines(buf, { "", lang.errors.mkdir_failed, "", lang.ui.press_q })
+    return
+  end
+  ui.append_lines(buf, { lang.success.dir_created(project_dir) })
+
+  -- Création venv
   local venv_cmd = string.format("cd '%s' && python3 -m venv %s", project_dir, venv_dir)
-  local return_code = utils.check_run_in_shell(venv_cmd)  -- Exécution de la commande de création de l'environnement virtuel
-  if not return_code then  -- Vérifie si la commande a rnussi
-    ui.append_lines(buf, { lang.errors.venv_failed, "", lang.ui.press_q })
+  local ok = utils.check_run_in_shell(venv_cmd)
+  if not ok then
+    ui.append_lines(buf, { "", lang.errors.venv_failed, "", lang.ui.press_q })
     return
-  else
-    ui.append_lines(buf, { lang.success.venv_created })
   end
+  ui.append_lines(buf, { lang.success.venv_created })
 
+  -- Création .gitignore
   local gitignore_path = project_dir .. "/.gitignore"
-
   local f = io.open(gitignore_path, "w")
-  if f then
-    f:write(gitignore_template.default_gitignore(venv_dir))
-    f:close()
-    ui.append_lines(buf, { lang.success.gitignore_created })
-  else
-    ui.append_lines(buf, { lang.errors.gitignore_failed, "", lang.ui.press_q })
+  if not f then
+    ui.append_lines(buf, { "", lang.errors.gitignore_failed, "", lang.ui.press_q })
     return
   end
+  f:write(gitignore_template.default_gitignore(venv_dir))
+  f:close()
+  ui.append_lines(buf, { lang.success.gitignore_created })
 
   ui.append_lines(buf, {
-    "", lang.success.project_created(project_name),
-    "", lang.ui.press_q
+    "",
+    lang.success.project_created(project_name),
+    "",
+    lang.ui.press_q,
   })
 end
 
--- Commande utilisateur :CreatePythonVenv
 vim.api.nvim_create_user_command("CreatePythonVenv", function()
+  -- Création popup avec saisie + affichage résultat dans même buffer
   ui.create_popup_with_input(function(project_name, buf)
     if not project_name or project_name == "" then
       ui.append_lines(buf, {
-                lang.errors.no_project_name, "",
-                lang.ui.cancelled, "",
-                "", lang.ui.press_q
+        lang.errors.no_project_name,
+        "",
+        lang.ui.cancelled,
+        "",
+        lang.ui.press_q,
       })
       return
     end
+
+    -- Lance la création
     M.create_python_project(project_name, buf)
   end)
 end, {})
 
 return M
+

@@ -6,7 +6,6 @@
 -- ** - Contient diverses fonctions générales et réutilisables. **
 -- ***************************************************************
 
--- ui_init.lua
 local utils = require("pyflowenv.ui.ui_utils")
 local highlights = require("pyflowenv.ui.ui_highlights")
 local lang = require("pyflowenv.lang").get()
@@ -16,9 +15,13 @@ local M = {}
 local function setup_buffer_and_window(buf, win, lines)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
   vim.bo[buf].modifiable = true
+
   vim.keymap.set("n", "q", function()
     if vim.api.nvim_win_is_valid(win) then
       vim.api.nvim_win_close(win, true)
+    end
+    if vim.api.nvim_buf_is_valid(buf) then
+      vim.api.nvim_buf_delete(buf, { force = true })
     end
   end, { buffer = buf, silent = true })
 end
@@ -56,23 +59,43 @@ function M.append_lines(buf, new_lines)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.list_extend(curr, new_lines))
 end
 
--- Popup avec saisie utilisateur
+-- Popup avec saisie utilisateur (même buffer réutilisé ensuite)
 function M.create_popup_with_input(callback)
   local prompt = lang.ui.prompt
-  local buf, win = create_popup_window({ prompt }, { width_factor = 0.5, min_height = 2 })
+  local buf, win = create_popup_window({ prompt }, { width_factor = 0.6, min_height = 12})
   vim.bo[buf].buftype = "prompt"
+
   vim.fn.prompt_setprompt(buf, prompt)
   vim.fn.prompt_setcallback(buf, function(input)
+    -- On désactive le mode prompt immédiatement après la saisie
+    vim.bo[buf].buftype = ""
+    -- Affiche immédiatement "Veuillez patienter..."
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, {
+      prompt .. input,
+      "", "  ⏳ Veuillez patienter pendant la création du projet...", "",
+    })
+
+    -- Réactive le mode normal (sort du mode insert)
+    vim.cmd("stopinsert")
+
+    -- Déclenche la logique de création après un léger délai
+    vim.defer_fn(function()
+      if callback then
+        callback(input, buf)
+      end
+    end, 100) -- délai de 100 ms
+  end)
+
+  -- Permet de quitter avec "q" à tout moment
+  vim.keymap.set("n", "q", function()
     if vim.api.nvim_win_is_valid(win) then
       vim.api.nvim_win_close(win, true)
     end
     if vim.api.nvim_buf_is_valid(buf) then
       vim.api.nvim_buf_delete(buf, { force = true })
     end
-    if callback then
-      callback(input, M.create_popup({}))
-    end
-  end)
+  end, { buffer = buf, silent = true })
+
   vim.cmd("startinsert")
 end
 
