@@ -2,7 +2,7 @@
 
 **`pyflowenv-nvim`** is a [Neovim](https://neovim.io/) *plugin* written in [Lua](https://www.lua.org/) that quickly creates the minimal structure of a **Python** project: isolated virtual environment, `.gitignore`, all from an interactive interface inside **Neovim**.
 
-![demo](./assets/screenshot.png)
+![demo](./assets/screenshot_en.png)
 
 This plugin is ideal for Python developers who want to **quickly initialize a project inside Neovim**, without leaving the editor (usable from [alpha](https://github.com/goolord/alpha-nvim) or via a built-in **Neovim** command).
 
