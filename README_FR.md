@@ -1,6 +1,6 @@
 # 🐍 pyflowenv-nvim
 
-**`pyflowenv-nvim`** est un *plugin* [Neovim](https://neovim.io/) écrit en [Lua](https://www.lua.org/), permettant de créer rapidement la structure minimale d’un projet **Python** : environnement virtuel isolé, `.gitignore`, le tout depuis une interface interactive dans **Neovim**.
+**`pyflowenv-nvim`** est un *plugin* [Neovim](https://neovim.io/) écrit en [Lua](https://www.lua.org/), permettant de créer rapidement la structure minimale d’un projet **Python** : environnement virtuel isolé, `.gitignore`, les répertoires `src/`, `assets/` et `tests/`, le tout depuis une interface interactive dans **Neovim**.
 
 ![demo](./assets/screenshot.png)
 
@@ -10,9 +10,9 @@ Ce plugin est idéal pour les développeurs Python qui veulent **initialiser rap
 
 ## ✨ Fonctionnalités
 
-- 📁 Création d’un répertoire pour le projet
-- 🐍 Génération automatique d’un environnement virtuel avec `python3 -m venv`
-- 🧾 Création d’un fichier `.gitignore` adapté aux projets Python
+- 📁 Création d’un répertoire et d'une architecture pour le projet
+- 🐍 Génération automatique d’un environnement virtuel avec `python3 -m venv` et d'un dépôt **Git**
+- 🧾 Création des fichiers `.gitignore` (adapté aux projets Python), `main.py` et `README.md`
 - 💬 Interface interactive dans une fenêtre *popup* **Neovim**
 - 🌐 Support multilingue (`fr`, `es`, `en`) avec messages traduits
 - ⚙️ Option configurable pour personnaliser le nom du dossier `venv`
@@ -53,11 +53,20 @@ require("pyflowenv").setup({
 ```
 mon-projet/
 ├── .gitignore
-└── .venv/
+├── .git/
+├── .venv/
+├── assets/
+├── README.md
+├── src/
+│   └── mon_projet/
+│       └── main.py
+└── tests/
 ```
 
 - `.venv/` : environnement virtuel Python (non activé automatiquement)
 - `.gitignore` : contient des règles standards ̀.venv`, `__pycache__/`, fichiers `.log`, etc.
+- `main.py` : contient un code minimal.
+- `README.md` : contient `# mon_projet`
 
 ---
 
@@ -76,9 +85,7 @@ Le choix se réalise via l'option `lang = "en"` dans `setup()`.
 
 ## 🔭 Feuille de route (à venir)
 
-- 📝 Création automatique de `main.py`
 - 🧪 Détection et intégration avec **poetry** ou **pyenv**
-- 🏗️ Génération de structure modulaire (`src/`, `tests/`, etc.)
 - 🔍 Intégration avec **telescope.nvim** pour sélectionner un répertoire
 
 ---
