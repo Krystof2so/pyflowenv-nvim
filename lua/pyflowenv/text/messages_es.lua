@@ -20,6 +20,7 @@ return {
     cancelled = "  Abandono 'Creación de proyecto'",
     press_q = "  [q] para salir...",
     prompt = "  🐍 Nombre del proyecto: ",
-    title_ui = " Creación de un proyecto Python "
+    title_ui = " Creación de un proyecto Python ",
+    waiting = "  ⏳ Espere mientras se crea el proyecto...",
   },
 }
