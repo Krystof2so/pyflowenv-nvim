@@ -1,27 +1,27 @@
 # 🐍 pyflowenv-nvim
 
-**`pyflowenv-nvim`** est un *plugin* [Neovim](https://neovim.io/) écrit en [Lua](https://www.lua.org/), permettant de créer rapidement la structure minimale d’un projet **Python** : environnement virtuel isolé, `.gitignore`, le tout depuis une interface interactive dans **Neovim**.
+**`pyflowenv-nvim`** is a [Neovim](https://neovim.io/) *plugin* written in [Lua](https://www.lua.org/) that quickly creates the minimal structure of a **Python** project: isolated virtual environment, `.gitignore`, all from an interactive interface inside **Neovim**.
 
 ![demo](./assets/screenshot.png)
 
-Ce plugin est idéal pour les développeurs Python qui veulent **initialiser rapidement un projet dans Neovim**, sans avoir à quitter l'interface (utilisable depuis [alpha](https://github.com/goolord/alpha-nvim) ou via une commande intégrée à **Neovim**)
+This plugin is ideal for Python developers who want to **quickly initialize a project inside Neovim**, without leaving the editor (usable from [alpha](https://github.com/goolord/alpha-nvim) or via a built-in **Neovim** command).
 
 ---
 
-## ✨ Fonctionnalités
+## ✨ Features
 
-- 📁 Création d’un répertoire pour le projet
-- 🐍 Génération automatique d’un environnement virtuel avec `python3 -m venv`
-- 🧾 Création d’un fichier `.gitignore` adapté aux projets Python
-- 💬 Interface interactive dans une fenêtre *popup* **Neovim**
-- 🌐 Support multilingue (`fr`, `es`, `en`) avec messages traduits
-- ⚙️ Option configurable pour personnaliser le nom du dossier `venv`
+- 📁 Create a directory for the project
+- 🐍 Automatically generate a virtual environment with `python3 -m venv`
+- 🧾 Create a `.gitignore` file tailored for Python projects
+- 💬 Interactive interface in a **Neovim** *popup* window
+- 🌐 Multilingual support (`fr`, `es`, `en`) with translated messages
+- ⚙️ Configurable option to customize the `venv` folder name
 
 ---
 
-## 📦 Installation (avec [lazy.nvim](https://github.com/folke/lazy.nvim))
+## 📦 Installation (with [lazy.nvim](https://github.com/folke/lazy.nvim))
 
-Ajoutez le plugin dans la liste des plugins Lazy :
+Add the plugin to your Lazy plugins list:
 
 ```lua
 {
@@ -48,7 +48,7 @@ require("pyflowenv").setup({
 ```
 ---
 
-## 📂 Structure générée
+## 📂 Generated Structure
 
 ```
 mon-projet/
@@ -56,35 +56,34 @@ mon-projet/
 └── .venv/
 ```
 
-- `.venv/` : environnement virtuel Python (non activé automatiquement)
-- `.gitignore` : contient des règles standards ̀.venv`, `__pycache__/`, fichiers `.log`, etc.
+- `.venv/`: Python virtual environment (not activated automatically)  
+- `.gitignore`: contains standard rules to ignore `.venv`, `__pycache__/`, `.log` files, etc.
 
 ---
 
-## 🌍 Langues disponibles
+## 🌍 Available Languages
 
-Les messages affichés dans les fenêtres *popup* peuvent être traduits.
-Langues actuellement supportées :
+Messages displayed in popup windows can be translated.  
+Currently supported languages:
 
-- 🇫🇷 Français (fr)
-- 🇪🇸 Espagnol (es)
-- 🇬🇧 Anglais (en)
+- 🇫🇷 French (fr)  
+- 🇪🇸 Spanish (es)  
+- 🇬🇧 English (en)  
 
-Le choix se réalise via l'option `lang = "en"` dans `setup()`.
-
----
-
-## 🔭 Feuille de route (à venir)
-
-- 📝 Création automatique de `main.py`
-- 🧪 Détection et intégration avec **poetry** ou **pyenv**
-- 🏗️ Génération de structure modulaire (`src/`, `tests/`, etc.)
-- 🔍 Intégration avec **telescope.nvim** pour sélectionner un répertoire
+The choice is made via the option `lang = "en"` in `setup()`.
 
 ---
 
-## 👨‍💻 Auteur
+## 🔭 Roadmap (Coming Soon)
 
-Développé par Krystof26, simple amateur des langages **Python** et **Lua**. J'apprécie les outils simples, efficaces et bien intégrés à [Neovim](https://neovim.io/).
+- 📝 Automatic creation of `main.py`
+- 🧪 Detection and integration with **poetry** or **pyenv**
+- 🏗️ Modular structure generation (`src/`, `tests/`, etc.)
+- 🔍 Integration with **telescope.nvim** for directory selection
 
+---
+
+## 👨‍💻 Author
+
+Developed by Krystof26, a simple enthusiast of **Python** and **Lua** languages. I appreciate simple, efficient tools well integrated with [Neovim](https://neovim.io/).
 
