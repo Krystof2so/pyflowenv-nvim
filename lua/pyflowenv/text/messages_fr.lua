@@ -8,12 +8,16 @@ return {
     dir_exists = "  Le répertoire existe déjà.",
     mkdir_failed = "  ❌ Erreur : impossible de créer le répertoire.",
     venv_failed = "  ❌ Erreur création environnement virtuel.",
+    git_failed = "  ❌ Impossible d'initialiser Git.",
+    git_commit_failed = "  ❌ Échec du commit initial. Avez-vous configuré Git ?",
     gitignore_failed = "  ❌ Erreur création du .gitignore.",
   },
   success = {
     dir_created = function(path) return "  📂 Répertoire créé : " .. path end,
     venv_created = "  ✅ Environnement virtuel créé.",
     gitignore_created = "  ✅ Fichier .gitignore créé.",
+    git_initialized = "  ✅ Dépôt Git initialisé.",
+    git_local = function(msg) return "  ✅ Commit réalisé : « " .. msg .. " »" end,
     project_created = function(name) return "  ✅ Projet '" .. name .. "' créé." end,
   },
   ui = {

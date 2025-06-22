@@ -101,7 +101,7 @@ end
 -- EN : Manages user interaction.
 function M.create_popup_with_input(callback)
   local prompt = lang.ui.prompt
-  local buf, win = create_popup_window({ prompt }, { width_factor = 0.6, min_height = 12})
+  local buf, win = create_popup_window({ prompt }, { width_factor = 0.6, min_height = 14})
   vim.bo[buf].buftype = "prompt"
 
   vim.fn.prompt_setprompt(buf, prompt)
