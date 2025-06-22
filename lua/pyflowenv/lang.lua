@@ -21,6 +21,7 @@ local current_lang = "fr"  -- Default language
 -- EN : Language → module correspondence table
 local map = {
   fr = "pyflowenv.text.messages_fr",
+  en = "pyflowenv.text.messages_en",
   es = "pyflowenv.text.messages_es",
 }
 
