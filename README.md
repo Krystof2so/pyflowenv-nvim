@@ -1,10 +1,10 @@
 # 🐍 pyflowenv-nvim
 
-**`pyflowenv-nvim`** est un plugin Neovim écrit en **Lua**, permettant de créer rapidement la structure minimale d’un projet Python : environnement virtuel isolé, `.gitignore`, le tout depuis une interface interactive dans Neovim.
+**`pyflowenv-nvim`** est un *plugin* [Neovim](https://neovim.io/) écrit en [Lua](https://www.lua.org/), permettant de créer rapidement la structure minimale d’un projet **Python** : environnement virtuel isolé, `.gitignore`, le tout depuis une interface interactive dans **Neovim**.
 
 ![demo](./assets/screenshot.png)
 
-Ce plugin est idéal pour les développeurs Python qui veulent **initialiser rapidement un projet dans Neovim**, sans avoir à sortir du terminal ou utiliser un cookiecutter.
+Ce plugin est idéal pour les développeurs Python qui veulent **initialiser rapidement un projet dans Neovim**, sans avoir à quitter l'interface (utilisable depuis [alpha](https://github.com/goolord/alpha-nvim) ou via une commande intégrée à **Neovim**)
 
 ---
 
@@ -13,7 +13,7 @@ Ce plugin est idéal pour les développeurs Python qui veulent **initialiser rap
 - 📁 Création d’un répertoire pour le projet
 - 🐍 Génération automatique d’un environnement virtuel avec `python3 -m venv`
 - 🧾 Création d’un fichier `.gitignore` adapté aux projets Python
-- 💬 Interface interactive dans une fenêtre popup Neovim
+- 💬 Interface interactive dans une fenêtre *popup* **Neovim**
 - 🌐 Support multilingue (`fr`, `es`, `en`) avec messages traduits
 - ⚙️ Option configurable pour personnaliser le nom du dossier `venv`
 
@@ -63,8 +63,8 @@ mon-projet/
 
 ## 🌍 Langues disponibles
 
-Les messages affichés dans les fenêtres popup peuvent être traduits.
-Langues supportées actuellement :
+Les messages affichés dans les fenêtres *popup* peuvent être traduits.
+Langues actuellement supportées :
 
 - 🇫🇷 Français (fr)
 - 🇪🇸 Espagnol (es)
@@ -74,7 +74,7 @@ Le choix se réalise via l'option `lang = "en"` dans `setup()`.
 
 ---
 
-🔭 Feuille de route (à venir)
+## 🔭 Feuille de route (à venir)
 
 - 📝 Création automatique de `main.py`
 - 🧪 Détection et intégration avec **poetry** ou **pyenv**
@@ -83,7 +83,8 @@ Le choix se réalise via l'option `lang = "en"` dans `setup()`.
 
 ---
 
-👨‍💻 Auteur
+## 👨‍💻 Auteur
 
-Développé par Krystof26, passionné d’apprentissage autodidacte en Python et Lua, et amoureux des outils simples, efficaces et bien intégrés à Neovim.
+Développé par Krystof26, simple amateur des langages **Python** et **Lua**. J'apprécie les outils simples, efficaces et bien intégrés à [Neovim](https://neovim.io/).
+
 
