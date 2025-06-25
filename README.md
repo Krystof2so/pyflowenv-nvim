@@ -19,18 +19,48 @@ This plugin is ideal for Python developers who want to **quickly initialize a pr
 
 ---
 
+## 🔗 Requirements
+
+- **Neovim** >= 0.10.4
+- Requires the installation of [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) along with its extension [telescope-file-browser.nvim](https://github.com/nvim-telescope/telescope-file-browser.nvim) – See [Installation](https://github.com/Krystof2so/pyflowenv-nvim?tab=readme-ov-file#-installation-with-lazynvim)
+- The tool [fd](https://github.com/sharkdp/fd) (or find, rg, etc.) must be installed, as **Telescope** often relies on it:
+```bash
+sudo apt-get install fd-find
+```
+
+---
+
 ## 📦 Installation (with [lazy.nvim](https://github.com/folke/lazy.nvim))
 
-Add the plugin to your Lazy plugins list:
+Add the plugin to your **Lazy** plugin list, along with **Telescope** if it is not already installed:
 
 ```lua
+{  -- nvim-telescope : search in lists
+    "nvim-telescope/telescope.nvim",
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+        "nvim-telescope/telescope-file-browser.nvim",
+    },
+    config = function()
+        require("telescope").setup({
+            extensions = {
+                file_browser = {
+                    theme = "dropdown",
+                    hijack_netrw = true,
+                },
+            },
+        })
+        require("telescope").load_extension("file_browser")
+    end,
+},   
+
 {
   "Krystof2so/pyflowenv-nvim",
   config = function()
     require("pyflowenv").setup({
-      -- langue : "fr" (par défaut), "en", "es"
+      -- language : "fr" (by défault), "en", "es"
       lang = "fr",
-      -- dossier venv : par défaut ".venv"
+      -- repertory venv : by défault ".venv"
       venv_dir = ".venv"
     })
   end
@@ -42,8 +72,8 @@ Add the plugin to your Lazy plugins list:
 
 ```lua
 require("pyflowenv").setup({
-  venv_dir = ".venv", -- dossier de l'environnement virtuel (défaut)
-  lang = "en",        -- langue : "fr", "en", "es"
+  venv_dir = ".venv", -- virtual environment folder (default)
+  lang = "en",        -- language : "fr", "en", "es"
 })
 ```
 ---

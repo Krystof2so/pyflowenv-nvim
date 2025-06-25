@@ -15,6 +15,7 @@
 -- EN : Loading modules
 local M = {}
 local ui = require("pyflowenv.ui.ui_init")
+local picker = require("pyflowenv.ui.ui_telescope_picker")  -- NEW
 local lang_module = require("pyflowenv.lang")
 local creator = require("pyflowenv.creator.project_creator")
 
@@ -46,25 +47,37 @@ end
 -- FR : Utilisation de l'API de Neovim.
 -- EN : Using the Neovim API.
 vim.api.nvim_create_user_command("CreatePythonVenv", function()
+    local lang = lang_module.get()
 
-  -- FR : Création popup avec saisie + affichage résultat dans même buffer.
-  -- EN : Popup creation with input + result display in the same buffer.
-  ui.create_popup_with_input(function(project_name, buf)
-    if not project_name or project_name == "" then
-      local lang = lang_module.get()
-      ui.append_lines(buf, {
-        lang.errors.no_project_name,
-        "",
-        lang.ui.cancelled,
-        "",
-        lang.ui.press_q,
-      })
+    -- Step 1 :
+    -- FR : Sélection du répertoite via Telescope
+    -- EN : Directory selection via telescope
+    picker.select_directory(function(selected_dir)
+    if not selected_dir or selected_dir == "" then
+      vim.notify("[pyflowenv] Aucun dossier sélectionné.", vim.log.levels.WARN)
       return
     end
 
-    -- Lancement de la création du projet
-    creator.create_python_project(project_name, buf, M.options)
+    -- Step 2 :
+    -- FR : Création popup avec saisie + affichage résultat dans même buffer.
+    -- EN : Popup creation with input + result display in the same buffer.
+    ui.create_popup_with_input(function(project_name, buf)
+      if not project_name or project_name == "" then
+        ui.append_lines(buf, {
+          lang.errors.no_project_name,
+          "",
+          lang.ui.cancelled,
+          "",
+          lang.ui.press_q,
+        })
+        return
+      end
+      -- Create project structure :
+      local full_path = selected_dir .. "/" .. project_name
+      creator.create_python_project(full_path, project_name, buf, M.options)
+    end)
   end)
 end, {})
+
 
 return M

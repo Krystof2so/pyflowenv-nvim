@@ -8,6 +8,18 @@ Ce plugin est idéal pour les développeurs Python qui veulent **initialiser rap
 
 ---
 
+## 🔗 Pré-requis
+
+- **Neovim** >= 0.10.4
+- Nécessite l'installation de [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) avec son extension [telescope-file-browser.nvim](https://github.com/nvim-telescope/telescope-file-browser.nvim) - Voir [Installation](https://github.com/Krystof2so/pyflowenv-nvim?tab=readme-ov-file#-installation-with-lazynvim)
+- L'outil [fd](https://github.com/sharkdp/fd) (ou find, rg, etc.) doit être installé, car **Telescope** s’appuie souvent dessus :
+```bash
+sudo apt-get install fd-find
+```
+
+---
+
+
 ## ✨ Fonctionnalités
 
 - 📁 Création d’un répertoire et d'une architecture pour le projet
@@ -21,9 +33,28 @@ Ce plugin est idéal pour les développeurs Python qui veulent **initialiser rap
 
 ## 📦 Installation (avec [lazy.nvim](https://github.com/folke/lazy.nvim))
 
-Ajoutez le plugin dans la liste des plugins Lazy :
+Ajoutez le plugin dans la liste des plugins **Lazy**, ainsi que **telescope** si non installé :
 
 ```lua
+{  -- nvim-telescope : recherche dans listes
+    "nvim-telescope/telescope.nvim",
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+        "nvim-telescope/telescope-file-browser.nvim",
+    },
+    config = function()
+        require("telescope").setup({
+            extensions = {
+                file_browser = {
+                    theme = "dropdown",
+                    hijack_netrw = true,
+                },
+            },
+        })
+        require("telescope").load_extension("file_browser")
+    end,
+},   
+
 {
   "Krystof2so/pyflowenv-nvim",
   config = function()
