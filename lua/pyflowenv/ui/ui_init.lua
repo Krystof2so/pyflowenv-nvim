@@ -100,6 +100,9 @@ end
 -- FR : Gère l’interaction utilisateur.
 -- EN : Manages user interaction.
 function M.create_popup_with_input(callback)
+  vim.schedule(function()  -- Directly activates insertion mode
+    vim.api.nvim_feedkeys("i", "n", false)
+  end)
   local prompt = lang.ui.prompt
   local buf, win = create_popup_window({ prompt }, { width_factor = 0.6, min_height = 14})
   vim.bo[buf].buftype = "prompt"

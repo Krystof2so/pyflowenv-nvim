@@ -58,7 +58,7 @@ function M.create_python_project(project_dir, project_name, buf, options)
       return
     end
   end
-  ui.append_lines(buf, { lang.success.dir_created(project_name) })
+  ui.append_lines(buf, { lang.success.dir_created(project_dir) })
 
   -- Step 3
   -- FR : Création de main.py

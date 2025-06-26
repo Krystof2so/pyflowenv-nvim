@@ -4,6 +4,7 @@
 
 return {
   errors = {
+    not_fd = "❌ 'fd' is required to list directories",
     no_project_name = "  ❌ No project name provided.",
     dir_exists = "  The directory already exists.",
     mkdir_failed = "  ❌ Error: failed to create the directory.",
@@ -24,6 +25,7 @@ return {
     cancelled = "  Project creation cancelled.",
     press_q = "  [q] to quit...",
     prompt = "  🐍 Project name: ",
+    rep_choice = "📁 Select a destination directory",
     title_ui = " Python Project Creation ",
     waiting = "  ⏳ Please wait while the project is being created...",
   },
