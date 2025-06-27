@@ -4,8 +4,10 @@
 
 return {
   errors = {
+    no_file_browser = " ❌ telescope-file-browser.nvim no se ha cargado",
     not_fd = "❌ Se requiere 'fd' para listar directorios.",
     no_project_name = "  ❌ No se ingresó ningún nombre de proyecto.",
+    no_telescope = " ❌ No se ha encontrado el plugin Telescope.",
     dir_exists = "  El directorio ya existe.",
     mkdir_failed = "  ❌ Error: no se pudo crear el directorio.",
     venv_failed = "  ❌ Error al crear el entorno virtual.",

@@ -9,27 +9,29 @@
 
 local M = {}
 
+local lang = require("pyflowenv/lang").get()
+
 local function select_directory(callback)
   local ok, telescope = pcall(require, "telescope")
   if not ok then
-    vim.notify("❌ Telescope not found", vim.log.levels.ERROR)
+    vim.notify(lang.errors.no_telescope, vim.log.levels.ERROR)
     return
   end
 
   local fb_ok = pcall(telescope.load_extension, "file_browser")
   if not fb_ok then
-    vim.notify("❌ telescope-file-browser.nvim not loaded", vim.log.levels.ERROR)
+    vim.notify(lang.errors.no_file_browser, vim.log.levels.ERROR)
     return
   end
 
   telescope.extensions.file_browser.file_browser({
-    prompt_title = "📁 Choisis un dossier de destination",
+    prompt_title = lang.ui.rep_choice,
     path = vim.loop.os_homedir(),
     cwd = vim.loop.os_homedir(),
     hidden = true,
-    files = false,            -- Ne montre pas les fichiers
-    depth = false,                -- Ne descend pas dans les sous-dossiers
-    previewer = false,        -- ❌ Désactive la fenêtre de preview
+    files = false,            --  Does not show files
+    depth = false,                --  Don't go into subfolders
+    previewer = false,        --  Disables the preview window
     grouped = false,
     hijack_netrw = true,
     select_buffer = true,

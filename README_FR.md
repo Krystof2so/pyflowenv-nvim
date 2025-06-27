@@ -11,7 +11,7 @@ Ce plugin est idéal pour les développeurs Python qui veulent **initialiser rap
 ## 🔗 Pré-requis
 
 - **Neovim** >= 0.10.4
-- Nécessite l'installation de [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) avec son extension [telescope-file-browser.nvim](https://github.com/nvim-telescope/telescope-file-browser.nvim) - Voir [Installation](https://github.com/Krystof2so/pyflowenv-nvim?tab=readme-ov-file#-installation-with-lazynvim)
+- Requiert [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) et son extension [telescope-file-browser.nvim](https://github.com/nvim-telescope/telescope-file-browser.nvim) - Voir [Installation](https://github.com/Krystof2so/pyflowenv-nvim?tab=readme-ov-file#-installation-with-lazynvim)
 - L'outil [fd](https://github.com/sharkdp/fd) (ou find, rg, etc.) doit être installé, car **Telescope** s’appuie souvent dessus :
 ```bash
 sudo apt-get install fd-find
@@ -23,6 +23,7 @@ sudo apt-get install fd-find
 ## ✨ Fonctionnalités
 
 - 📁 Création d’un répertoire et d'une architecture pour le projet
+- 📂 Sélection interactive du répertoire de destination avec **Telescope**
 - 🐍 Génération automatique d’un environnement virtuel avec `python3 -m venv` et d'un dépôt **Git**
 - 🧾 Création des fichiers `.gitignore` (adapté aux projets Python), `main.py` et `README.md`
 - 💬 Interface interactive dans une fenêtre *popup* **Neovim**
@@ -117,7 +118,6 @@ Le choix se réalise via l'option `lang = "en"` dans `setup()`.
 ## 🔭 Feuille de route (à venir)
 
 - 🧪 Détection et intégration avec **poetry** ou **pyenv**
-- 🔍 Intégration avec **telescope.nvim** pour sélectionner un répertoire
 
 ---
 

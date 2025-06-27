@@ -4,8 +4,9 @@
 
 return {
   errors = {
-    not_fd = "❌ 'fd' est nécessaire pour lister les répertoires.",
+    no_file_browser = " ❌ telescope-file-browser.nvim n'est pas chargé",
     no_project_name = "  ❌ Aucun nom de projet saisi.",
+    no_telescope = " ❌ Telescope n'a pas été trouvé",
     dir_exists = "  Le répertoire existe déjà.",
     mkdir_failed = "  ❌ Erreur : impossible de créer le répertoire.",
     venv_failed = "  ❌ Erreur création environnement virtuel.",
