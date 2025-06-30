@@ -4,10 +4,14 @@
 
 return {
   errors = {
+    no_encode_json = " ❌ JSON encoding failure",
+    no_repertory = " ❌ No folder selected.",
     no_save_file = " ❌ Unable to create list_projects.json",
     no_file_browser = " ❌ telescope-file-browser.nvim not loaded",
     no_project_name = "  ❌ No project name provided.",
     no_telescope = "  ❌ Telescope not found",
+    no_write_in_json = " ❌ Write error in 'list_projects.json'",
+    not_main = "  ❌ Unable to create main.py",
     dir_exists = "  The directory already exists.",
     mkdir_failed = "  ❌ Error: failed to create the directory.",
     venv_failed = "  ❌ Error creating virtual environment.",
@@ -21,6 +25,9 @@ return {
     gitignore_created = "  ✅ .gitignore file created.",
     git_initialized = "  ✅ Git repository initialized.",
     git_local = function(msg) return "  ✅ Commit created: \"" .. msg .. "\"" end,
+    main_created = "  ✅ main.py created.",
+    readme_created = "  ✅ README.md created.",
+
     project_created = function(name) return "  ✅ Project '" .. name .. "' created." end,
   },
   ui = {

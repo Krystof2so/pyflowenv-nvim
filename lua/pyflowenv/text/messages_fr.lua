@@ -4,10 +4,14 @@
 
 return {
   errors = {
+    no_encode_json = " ❌ Échec de l'encodage JSON",
+    no_repertory = " ❌ Aucun dossier sélectionné.",
     no_save_file = " ❌ Impossible de créer list_projects.json",
     no_file_browser = " ❌ telescope-file-browser.nvim n'est pas chargé",
     no_project_name = "  ❌ Aucun nom de projet saisi.",
     no_telescope = " ❌ Telescope n'a pas été trouvé",
+    no_write_in_json = " ❌ Erreur d'écriture dans 'list_projects.json'",
+    not_main = "  ❌ Impossible de créer main.py",
     dir_exists = "  Le répertoire existe déjà.",
     mkdir_failed = "  ❌ Erreur : impossible de créer le répertoire.",
     venv_failed = "  ❌ Erreur création environnement virtuel.",
@@ -17,6 +21,8 @@ return {
   },
   success = {
     dir_created = function(path) return "  📂 Répertoire créé : " .. path end,
+    main_created = "  ✅ main.py créé.",
+    readme_created = "  ✅ README.md créé.",
     venv_created = "  ✅ Environnement virtuel créé.",
     gitignore_created = "  ✅ Fichier .gitignore créé.",
     git_initialized = "  ✅ Dépôt Git initialisé.",

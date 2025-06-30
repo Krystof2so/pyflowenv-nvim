@@ -39,7 +39,7 @@ function M.create_python_project(project_dir, project_name, buf, options)
   -- EN : Check if the directory already exists
   if dir_exists(project_dir) then
     ui.append_lines(buf, { "", lang.errors.dir_exists, "", lang.ui.press_q })
-    return
+    return false
   end
 
   -- Step 2
@@ -55,7 +55,7 @@ function M.create_python_project(project_dir, project_name, buf, options)
     local ok = vim.fn.mkdir(path, "p")
     if ok ~= 1 then
       ui.append_lines(buf, { "", lang.errors.mkdir_failed .. ": " .. path, "", lang.ui.press_q })
-      return
+      return false
     end
   end
   ui.append_lines(buf, { lang.success.dir_created(project_dir) })
@@ -74,10 +74,10 @@ if __name__ == '__main__':
     main()
 ]])
     main_file:close()
-    ui.append_lines(buf, { "  ✅ main.py créé." })
+    ui.append_lines(buf, { lang.success.main_created })
   else
-    ui.append_lines(buf, { "", "  ❌ Impossible de créer main.py", "", lang.ui.press_q })
-    return
+    ui.append_lines(buf, { "", lang.errors.not_main, "", lang.ui.press_q })
+    return false
   end
 
   -- Step 4
@@ -87,7 +87,7 @@ if __name__ == '__main__':
   if readme then
     readme:write("# " .. project_name:gsub("%-", " "))
     readme:close()
-    ui.append_lines(buf, { "  ✅ README.md créé." })
+    ui.append_lines(buf, { lang.success.readme_created })
   end
 
   -- Step 5
@@ -101,7 +101,7 @@ if __name__ == '__main__':
     ui.append_lines(buf, { lang.success.gitignore_created })
   else
     ui.append_lines(buf, { lang.errors.gitignore_failed, "", lang.ui.press_q })
-    return
+    return false
   end
 
   -- Step 6
@@ -110,7 +110,7 @@ if __name__ == '__main__':
   local venv_cmd = string.format("cd '%s' && python3 -m venv %s", project_dir, venv_dir)
   if not utils.check_run_in_shell(venv_cmd) then
     ui.append_lines(buf, { lang.errors.venv_failed, "", lang.ui.press_q })
-    return
+    return false
   else
     ui.append_lines(buf, { lang.success.venv_created })
   end
@@ -128,7 +128,7 @@ if __name__ == '__main__':
     local ok = utils.check_run_in_shell(cmd)
     if not ok then
       ui.append_lines(buf, { lang.errors.git_failed })
-      return
+      return false
     end
   end
   ui.append_lines(buf, { lang.success.git_local("initial commit") })
@@ -140,6 +140,8 @@ if __name__ == '__main__':
     "",
     lang.ui.press_q,
   })
+
+  return true  -- If all the steps have been completed
 end
 
 

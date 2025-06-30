@@ -19,6 +19,7 @@ local ui = require("pyflowenv.ui.ui_init")
 local picker = require("pyflowenv.ui.ui_telescope_picker")
 local lang_module = require("pyflowenv.lang")
 local creator = require("pyflowenv.creator.project_creator")
+local manager = require("pyflowenv.manage_projects")
 
 
 -- *******************************
@@ -57,7 +58,7 @@ vim.api.nvim_create_user_command("CreatePythonVenv", function()
     -- EN : Directory selection via telescope
     picker.select_directory(function(target_dir)
     if utils.is_empty(target_dir) then
-      vim.notify("[pyflowenv] Aucun dossier sélectionné.", vim.log.levels.WARN)
+      vim.notify(lang.errors.no_directory, vim.log.levels.WARN)
       return
     end
 
@@ -77,7 +78,11 @@ vim.api.nvim_create_user_command("CreatePythonVenv", function()
       end
       -- Create project structure :
       local full_path = target_dir .. "/" .. project_name
-      creator.create_python_project(full_path, project_name, buf, M.options)
+      local project_success = creator.create_python_project(full_path, project_name, buf, M.options)
+
+      if project_success then  -- Save project in '~/.config/pyflowenv/projects_list.lua'
+        manager.save_project(project_name, full_path)
+      end
     end)
   end)
 end, {})
