@@ -4,6 +4,7 @@
 
 return {
   errors = {
+    no_save_file = " ❌ No se puede crear list_projects.json",
     no_file_browser = " ❌ telescope-file-browser.nvim no se ha cargado",
     not_fd = "❌ Se requiere 'fd' para listar directorios.",
     no_project_name = "  ❌ No se ingresó ningún nombre de proyecto.",
