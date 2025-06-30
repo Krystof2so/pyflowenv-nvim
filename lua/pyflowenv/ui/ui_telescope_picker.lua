@@ -28,10 +28,10 @@ local function select_directory(callback)
     prompt_title = lang.ui.rep_choice,
     path = vim.loop.os_homedir(),
     cwd = vim.loop.os_homedir(),
-    hidden = true,
-    files = false,            --  Does not show files
-    depth = false,                --  Don't go into subfolders
-    previewer = false,        --  Disables the preview window
+    hidden = false,                 -- Do not include hidden files 
+    files = false,                  --  Does not show files
+    depth = false,                      --  Don't go into subfolders
+    previewer = false,              --  Disables the preview window
     grouped = false,
     hijack_netrw = true,
     select_buffer = true,
