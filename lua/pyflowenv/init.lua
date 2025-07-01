@@ -43,11 +43,10 @@ function M.setup(opts)
 end
 
 
--- ****************
--- * User command *
--- ****************
--- FR : Utilisation de l'API de Neovim.
--- EN : Using the Neovim API.
+-- *****************
+-- * User commands *
+-- *****************
+-- :CreatePythonVenv
 vim.api.nvim_create_user_command("CreatePythonVenv", function()
     local lang = lang_module.get()
     -- FR : Initialiser le fichier de projets si nécessaire
@@ -85,6 +84,11 @@ vim.api.nvim_create_user_command("CreatePythonVenv", function()
       end
     end)
   end)
+end, {})
+
+-- :ListPythonProjects
+vim.api.nvim_create_user_command("ListPythonProjects", function()
+  manager.show_project_list()
 end, {})
 
 
