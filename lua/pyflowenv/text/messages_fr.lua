@@ -40,6 +40,7 @@ return {
     rep_choice = "📁 Choisir un répertoire de destination",
     title_projects_list = " Projets enregistrés ",
     title_ui = " Création d'un projet Python ",
+    ui_menu = " [q] quitter, [o] ouvrir, [d] supprimer",
     waiting = "  ⏳ Veuillez patienter pendant la création du projet...",
     yes_no = "&Oui\n&Non",
   },

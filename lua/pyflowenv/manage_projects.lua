@@ -162,10 +162,16 @@ function M.show_project_list()
     return
   end
 
-  local lines = { lang.ui.title_projects_list .. " :", "" }
+  -- FR : Préparer les lignes du buffer
+  -- EN : Prepare the buffer lines
+  local lines = {}
+  table.insert(lines, "")  -- Empty line under title
   for _, proj in ipairs(projects) do
     table.insert(lines, "• " .. proj.name .. " → " .. proj.path)
   end
+  table.insert(lines, "")  -- Empty lines
+  table.insert(lines, "")
+  table.insert(lines, lang.ui.ui_menu)
 
   -- FR : Création d’un buffer temporaire
   -- EN : Creation of a temporary buffer
@@ -175,8 +181,9 @@ function M.show_project_list()
 
   -- FR : Dimensions et position
   -- EN : Size and position
-  local width = math.floor(vim.o.columns * 0.7)
-  local height = math.min(#lines + 2, math.floor(vim.o.lines * 0.5))
+  local width = math.floor(vim.o.columns * 0.5)
+  local min_height = 10
+  local height = math.max(#lines + 2, min_height)
   local row = math.floor((vim.o.lines - height) / 2)
   local col = math.floor((vim.o.columns - width) / 2)
 
@@ -190,6 +197,8 @@ function M.show_project_list()
     height = height,
     style = "minimal",
     border = "rounded",
+    title = lang.ui.title_projects_list,
+    title_pos = "center",
   })
 
   -- FR : Touches : q = quitter, o = ouvrir, d = supprimer
@@ -208,7 +217,7 @@ function M.show_project_list()
 
   -- FR : Curseur sur la première entrée
   -- EN : Cursor on the first entry
-  vim.api.nvim_win_set_cursor(win, { 3, 0 }) -- line 3 = first line project
+  vim.api.nvim_win_set_cursor(win, { 2, 0 }) -- line 3 = first line project
 end
 
 return M

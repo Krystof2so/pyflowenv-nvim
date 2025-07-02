@@ -41,6 +41,7 @@ return {
     rep_choice = "📁 Select a destination directory",
     title_projects_list = " projects registered ",
     title_ui = " Python Project Creation ",
+    ui_menu = " [q] quit, [o] open, [d] delete",
     waiting = "  ⏳ Please wait while the project is being created...",
     yes_no = "&Yes\n&No",
   },
