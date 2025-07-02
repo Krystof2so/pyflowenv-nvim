@@ -1,12 +1,11 @@
 -- **************************************************************
 -- ** pyflowenv/manage_projects.lua                            **
 -- ** -------------------------------------------------------- **
--- ** FR : Gère l'enregistrement des projets créés             **
--- ** EN : Manages saving of created projects                  **
+-- ** FR : Gestion des projets créés                           **
+-- ** EN : Management of created projects                      **
 -- **************************************************************
 
 local M = {}
-local json = vim.fn.json_decode
 
 local lang = require("pyflowenv.lang").get()
 
@@ -56,9 +55,9 @@ function M.save_project(name, path)
 end
 
 
--- ************
--- *
--- ******
+-- **********************************
+-- * Return table of saved projects *
+-- **********************************
 local function get_projects()
   if vim.fn.filereadable(file_path) == 0 then
     return {}
@@ -70,35 +69,66 @@ local function get_projects()
 end
 
 
--- *********
--- *
--- **********
+-- ********************************************************
+-- * Open project path using nvim-tree (triggered by 'o') *
+-- ********************************************************
+local function open_selected_project(win_id, buf_id)
+  local cursor = vim.api.nvim_win_get_cursor(win_id)
+  local row = cursor[1]
+  local line = vim.api.nvim_buf_get_lines(buf_id, row - 1, row, false)[1]
+
+  if not line then return end
+
+  local path = line:match("→%s*(.+)$")
+  if not path or vim.fn.isdirectory(path) == 0 then
+    vim.notify(lang.errors.no_path, vim.log.levels.ERROR)
+    return
+  end
+
+  -- FR : Fermer la fenêtre UI
+  -- EN : Close UI window
+  vim.api.nvim_win_close(win_id, true)
+  vim.api.nvim_buf_delete(buf_id, { force = true })
+
+  -- FR : Se positionner dans le répertoire du projet et ouvrir nvim-tree
+  -- EN : Position oneself in the project directory and open nvim-tree
+  vim.cmd("cd " .. path)
+  vim.cmd("NvimTreeOpen " .. path)
+end
+
+
+-- ************************************
+-- * Display the projects saved in UI *
+-- ************************************
 function M.show_project_list()
   local projects = get_projects()
 
   if #projects == 0 then
-    vim.notify("Aucun projet enregistré", vim.log.levels.INFO)
+    vim.notify(lang.errors.no_project_saved, vim.log.levels.INFO)
     return
   end
 
-  local lines = { "📁 Projets enregistrés :", "" }
+  local lines = { lang.ui.title_projects_list .. " :", "" }
   for _, proj in ipairs(projects) do
     table.insert(lines, "• " .. proj.name .. " → " .. proj.path)
   end
 
-  -- Création d’un buffer temporaire
+  -- FR : Création d’un buffer temporaire
+  -- EN : Creation of a temporary buffer
   local buf = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
   vim.bo[buf].modifiable = false
 
-  -- Dimensions et position
+  -- FR : Dimensions et position
+  -- EN : Size and position
   local width = math.floor(vim.o.columns * 0.7)
   local height = math.min(#lines + 2, math.floor(vim.o.lines * 0.5))
   local row = math.floor((vim.o.lines - height) / 2)
   local col = math.floor((vim.o.columns - width) / 2)
 
-  -- Création de la fenêtre flottante
-  vim.api.nvim_open_win(buf, true, {
+  -- FR : Création de la fenêtre flottante
+  -- EN : Creation of the floating window
+  local win = vim.api.nvim_open_win(buf, true, {
     relative = "editor",
     row = row,
     col = col,
@@ -108,10 +138,19 @@ function M.show_project_list()
     border = "rounded",
   })
 
-  -- Fermer avec `q`
-  vim.keymap.set("n", "q", "<cmd>bd!<CR>", { buffer = buf, nowait = true })
-end
+  -- Keybindings
+  vim.keymap.set("n", "q", function()
+    vim.api.nvim_win_close(win, true)
+  end, { buffer = buf, nowait = true })
 
+  vim.keymap.set("n", "o", function()
+    open_selected_project(win, buf)
+  end, { buffer = buf, nowait = true })
+
+  -- FR : Curseur sur la première entrée
+  -- EN : Cursor on the first entry
+  vim.api.nvim_win_set_cursor(win, { 3, 0 }) -- line 3 = first line project
+end
 
 return M
 

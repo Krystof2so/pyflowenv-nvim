@@ -5,6 +5,8 @@
 return {
   errors = {
     no_encode_json = " ❌ JSON encoding failure",
+    no_path = "❌ Path invalid or not found",
+    no_project_saved = "📭 No project recorded",
     no_repertory = " ❌ No folder selected.",
     no_save_file = " ❌ Unable to create list_projects.json",
     no_file_browser = " ❌ telescope-file-browser.nvim not loaded",
@@ -35,6 +37,7 @@ return {
     press_q = "  [q] to quit...",
     prompt = "  🐍 Project name: ",
     rep_choice = "📁 Select a destination directory",
+    title_projects_list = " projects registered ",
     title_ui = " Python Project Creation ",
     waiting = "  ⏳ Please wait while the project is being created...",
   },
