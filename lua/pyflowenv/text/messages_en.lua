@@ -51,11 +51,11 @@ return {
 
   time = {
     now     = "just now",
-    minutes = "%d minute%s ago",
-    hours   = "%d hour%s ago",
-    days    = "%d day%s ago",
-    months  = "%d month%s ago",
-    years   = "%d year%s ago",
+    minutes = "%d minutes ago",
+    hours   = "%d hours ago",
+    days    = "%d days ago",
+    months  = "%d months ago",
+    years   = "%d years ago",
   },
 
 }

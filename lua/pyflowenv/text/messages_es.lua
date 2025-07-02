@@ -51,11 +51,11 @@ return {
 
   time = {
     now     = "justo ahora",
-    minutes = "hace %d minuto%s",
-    hours   = "hace %d hora%s",
-    days    = "hace %d día%s",
-    months  = "hace %d mes%s",
-    years   = "hace %d año%s",
+    minutes = "hace %d minutos",
+    hours   = "hace %d horas",
+    days    = "hace %d días",
+    months  = "hace %d mess",
+    years   = "hace %d años",
   },
 
 }
