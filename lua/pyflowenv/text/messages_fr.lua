@@ -3,6 +3,7 @@
 -- ************************************
 
 return {
+
   errors = {
     failed_record_changes = " ❌ Impossible d’enregistrer les modifications",
     no_encode_json = " ❌ Échec de l'encodage JSON",
@@ -22,6 +23,7 @@ return {
     git_commit_failed = "  ❌ Échec du commit initial. Avez-vous configuré Git ?",
     gitignore_failed = "  ❌ Erreur création du .gitignore.",
   },
+
   success = {
     dir_created = function(path) return "  📂 Répertoire créé : " .. path end,
     main_created = "  ✅ main.py créé.",
@@ -32,6 +34,7 @@ return {
     git_local = function(msg) return "  ✅ Commit réalisé : « " .. msg .. " »" end,
     project_created = function(name) return "  ✅ Projet '" .. name .. "' créé." end,
   },
+
   ui = {
     cancelled = "  Abandon 'Création de projet'",
     delete_project = "❗ Supprimer le projet '",
@@ -44,5 +47,15 @@ return {
     waiting = "  ⏳ Veuillez patienter pendant la création du projet...",
     yes_no = "&Oui\n&Non",
   },
+
+  time = {
+    now = "à l'instant",
+    minutes = "il y a %d minutes",
+    hours = "il y a %d heures",
+    days = "il y a %d jours",
+    months = "il y a %d mois",
+    years = "il y a %d ans",
+  },
+
 }
 

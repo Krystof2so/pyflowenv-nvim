@@ -9,9 +9,12 @@ local M = {}
 
 local lang = require("pyflowenv.lang").get()
 local highlights = require("pyflowenv.ui.ui_highlights")
+local utils = require("pyflowenv.utils")
 
 local config_dir = vim.fn.expand("~/.config/pyflowenv")
 local file_path = config_dir .. "/list_projects.json"
+
+local project_lookup = {}  -- table : line → project)
 
 
 -- *****************************************
@@ -22,6 +25,7 @@ local file_path = config_dir .. "/list_projects.json"
 function M.save_project(name, path)
   local content = vim.fn.readfile(file_path)
   local projects = {}
+  local now = os.date("%Y-%m-%d %H:%M:%S")  -- Add date
 
   if content and #content > 0 then
     local ok, decoded = pcall(vim.fn.json_decode, table.concat(content, "\n"))
@@ -38,8 +42,9 @@ function M.save_project(name, path)
     end
   end
 
-  table.insert(projects, { name = name, path = path })
+  table.insert(projects, { name = name, path = path, modified = now })
 
+  ::save::
   local ok, encoded = pcall(vim.fn.json_encode, projects)
   if not ok then
     vim.notify(lang.errors.no_encode_json, vim.log.levels.ERROR)
@@ -65,8 +70,45 @@ local function get_projects()
   end
 
   local content = vim.fn.readfile(file_path)
-  local decoded = vim.fn.json_decode(table.concat(content, "\n"))
-  return decoded or {}
+  local decoded = vim.fn.json_decode(table.concat(content, "\n")) or {}
+
+  -- FR : Tri du plus récent au plus ancien
+  -- EN : Sort from most recent to oldestœ
+  table.sort(decoded, function(a, b)
+    return (a.modified or "") > (b.modified or "")
+  end)
+
+  return decoded
+end
+
+
+-- *******************************************************
+-- * Update the modification date of an existing project *
+-- *******************************************************
+local function update_modified_date(name, path)
+  local projects = get_projects()
+  local now = os.date("%Y-%m-%d %H:%M:%S")
+
+  for _, proj in ipairs(projects) do
+    if proj.name == name and proj.path == path then
+      proj.modified = now
+      break
+    end
+  end
+
+  local ok, encoded = pcall(vim.fn.json_encode, projects)
+  if not ok then
+    vim.notify(lang.errors.no_encode_json, vim.log.levels.ERROR)
+    return
+  end
+
+  local file = io.open(file_path, "w")
+  if file then
+    file:write(encoded)
+    file:close()
+  else
+    vim.notify(lang.errors.no_write_in_json, vim.log.levels.ERROR)
+  end
 end
 
 
@@ -102,15 +144,15 @@ end
 local function open_selected_project(win_id, buf_id)
   local cursor = vim.api.nvim_win_get_cursor(win_id)
   local row = cursor[1]
-  local line = vim.api.nvim_buf_get_lines(buf_id, row - 1, row, false)[1]
+  local proj = project_lookup[row]
 
-  if not line then return end
-
-  local path = line:match("→%s*(.+)$")
-  if not path or vim.fn.isdirectory(path) == 0 then
+  if not proj or not proj.path then
     vim.notify(lang.errors.no_path, vim.log.levels.ERROR)
     return
   end
+
+  -- Update date
+  update_modified_date(proj.name, proj.path)
 
   -- FR : Fermer la fenêtre UI
   -- EN : Close UI window
@@ -119,8 +161,8 @@ local function open_selected_project(win_id, buf_id)
 
   -- FR : Se positionner dans le répertoire du projet et ouvrir nvim-tree
   -- EN : Position oneself in the project directory and open nvim-tree
-  vim.cmd("cd " .. path)
-  vim.cmd("NvimTreeOpen " .. path)
+  vim.cmd("cd " .. proj.path)
+  vim.cmd("NvimTreeOpen " .. proj.path)
 end
 
 
@@ -130,19 +172,13 @@ end
 local function delete_selected_project(win_id, buf_id)
   local cursor = vim.api.nvim_win_get_cursor(win_id)
   local row = cursor[1]
-  local line = vim.api.nvim_buf_get_lines(buf_id, row - 1, row, false)[1]
+  local proj = project_lookup[row]
 
-  if not line then return end
+  if not proj or not proj.name or not proj.path then return end
 
-  local name = line:match("•%s*(.-)%s*→")
-  local path = line:match("→%s*(.+)$")
-  if not name or not path then
-    return
-  end
-
-  local confirm = vim.fn.confirm(lang.ui.delete_project .. name .. "' ?", lang.ui.yes_no, 2)
+  local confirm = vim.fn.confirm(lang.ui.delete_project .. proj.name .. "' ?", lang.ui.yes_no, 2)
   if confirm == 1 then
-    delete_project(name, path)
+    delete_project(proj.name, proj.path)
     vim.api.nvim_win_close(win_id, true)
     vim.api.nvim_buf_delete(buf_id, { force = true })
     vim.defer_fn(function()
@@ -166,9 +202,14 @@ function M.show_project_list()
   -- FR : Préparer les lignes du buffer
   -- EN : Prepare the buffer lines
   local lines = {}
+  project_lookup = {}
   table.insert(lines, "")  -- Empty line under title
   for _, proj in ipairs(projects) do
-    table.insert(lines, "• " .. proj.name .. " → " .. proj.path)
+    local date = utils.format_relative_time(proj.modified)
+    local line = string.format("• %s    ( %s)", proj.name, date)
+    table.insert(lines, line)
+    local current_line = #lines
+    project_lookup[current_line] = proj  -- Associate project with the line
   end
   table.insert(lines, "")  -- Empty lines
   table.insert(lines, "")
@@ -179,6 +220,23 @@ function M.show_project_list()
   local buf = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
   vim.bo[buf].modifiable = false
+
+  -- FR : Appliquer les highlights au buffer
+  -- EN : Apply the highlights to the buffer
+  for line_num, proj in pairs(project_lookup) do
+    local line = lines[line_num]
+    local start_col, end_col = string.find(line, proj.name, 1, true)
+    if start_col and end_col then
+      vim.api.nvim_buf_add_highlight(
+        buf,
+        -1,
+        highlights.highlight_defaults.ProjectName.name,
+        line_num - 1,
+        start_col -1,
+        end_col
+      )
+    end
+  end
 
   -- FR : Dimensions et position
   -- EN : Size and position

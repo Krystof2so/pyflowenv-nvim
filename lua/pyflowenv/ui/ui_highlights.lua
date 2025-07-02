@@ -16,6 +16,7 @@ local M = {}
 M.highlight_defaults = {
   FloatBorder = { name = "CustomBlueBorder", opts = { fg = "#5E81AC" } },
   FloatTitle  = { name = "CustomYellowTitle", opts = { fg = "#EBCB8B", bold = true } },
+  ProjectName = { name = "ProjectNameGreen", opts = { fg = "#a3be8c", bold = true } },
 }
 
 

@@ -3,6 +3,7 @@
 -- ************************************
 
 return {
+
   errors = {
     failed_record_changes = " ❌ Unable to save changes",
     no_encode_json = " ❌ JSON encoding failure",
@@ -22,6 +23,7 @@ return {
     git_commit_failed = "  ❌ Initial commit failed. Have you configured Git?",
     gitignore_failed = "  ❌ Error while creating .gitignore.",
   },
+
   success = {
     dir_created = function(path) return "  📂 Directory created: " .. path end,
     venv_created = "  ✅ Virtual environment created.",
@@ -33,6 +35,7 @@ return {
 
     project_created = function(name) return "  ✅ Project '" .. name .. "' created." end,
   },
+
   ui = {
     cancelled = "  Project creation cancelled.",
     delete_project = "❗ Delete project '",
@@ -45,5 +48,15 @@ return {
     waiting = "  ⏳ Please wait while the project is being created...",
     yes_no = "&Yes\n&No",
   },
+
+  time = {
+    now     = "just now",
+    minutes = "%d minute%s ago",
+    hours   = "%d hour%s ago",
+    days    = "%d day%s ago",
+    months  = "%d month%s ago",
+    years   = "%d year%s ago",
+  },
+
 }
 
