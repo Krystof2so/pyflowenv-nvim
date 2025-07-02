@@ -69,6 +69,32 @@ local function get_projects()
 end
 
 
+-- ******************************************************
+-- * Removes a project from the list_projects.json file *
+-- ******************************************************
+local function delete_project(name, path)
+  local projects = get_projects()
+  local updated = {}
+
+  for _, proj in ipairs(projects) do
+    if not (proj.name == name and proj.path == path) then
+      table.insert(updated, proj)
+    end
+  end
+
+  local ok, encoded = pcall(vim.fn.json_encode, updated)
+  if ok then
+    local file = io.open(file_path, "w")
+    if file then
+      file:write(encoded)
+      file:close()
+    end
+  else
+    vim.notify(lang.errors.failed_record_changes, vim.log.levels.ERROR)
+  end
+end
+
+
 -- ********************************************************
 -- * Open project path using nvim-tree (triggered by 'o') *
 -- ********************************************************
@@ -94,6 +120,34 @@ local function open_selected_project(win_id, buf_id)
   -- EN : Position oneself in the project directory and open nvim-tree
   vim.cmd("cd " .. path)
   vim.cmd("NvimTreeOpen " .. path)
+end
+
+
+-- ************************************************
+-- * Delete a project via the 'd' key from the UI *
+-- ************************************************
+local function delete_selected_project(win_id, buf_id)
+  local cursor = vim.api.nvim_win_get_cursor(win_id)
+  local row = cursor[1]
+  local line = vim.api.nvim_buf_get_lines(buf_id, row - 1, row, false)[1]
+
+  if not line then return end
+
+  local name = line:match("•%s*(.-)%s*→")
+  local path = line:match("→%s*(.+)$")
+  if not name or not path then
+    return
+  end
+
+  local confirm = vim.fn.confirm(lang.ui.delete_project .. name .. "' ?", lang.ui.yes_no, 2)
+  if confirm == 1 then
+    delete_project(name, path)
+    vim.api.nvim_win_close(win_id, true)
+    vim.api.nvim_buf_delete(buf_id, { force = true })
+    vim.defer_fn(function()
+      M.show_project_list()
+    end, 100)
+  end
 end
 
 
@@ -138,13 +192,18 @@ function M.show_project_list()
     border = "rounded",
   })
 
-  -- Keybindings
+  -- FR : Touches : q = quitter, o = ouvrir, d = supprimer
+  -- EN : Keys: q = quit, o = open, d = delete
   vim.keymap.set("n", "q", function()
     vim.api.nvim_win_close(win, true)
   end, { buffer = buf, nowait = true })
 
   vim.keymap.set("n", "o", function()
     open_selected_project(win, buf)
+  end, { buffer = buf, nowait = true })
+
+  vim.keymap.set("n", "d", function()
+    delete_selected_project(win, buf)
   end, { buffer = buf, nowait = true })
 
   -- FR : Curseur sur la première entrée

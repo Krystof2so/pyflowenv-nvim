@@ -4,6 +4,7 @@
 
 return {
   errors = {
+    failed_record_changes = " ❌ Impossible d’enregistrer les modifications",
     no_encode_json = " ❌ Échec de l'encodage JSON",
     no_path = "❌ Chemin invalide ou introuvable",
     no_project_saved = "📭 Aucun projet enregistré",
@@ -33,12 +34,14 @@ return {
   },
   ui = {
     cancelled = "  Abandon 'Création de projet'",
+    delete_project = "❗ Supprimer le projet '",
     press_q = "  [q] pour quitter...",
     prompt = "  🐍 Nom du projet : ",
     rep_choice = "📁 Choisir un répertoire de destination",
     title_projects_list = " Projets enregistrés ",
     title_ui = " Création d'un projet Python ",
     waiting = "  ⏳ Veuillez patienter pendant la création du projet...",
+    yes_no = "&Oui\n&Non",
   },
 }
 
