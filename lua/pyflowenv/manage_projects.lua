@@ -8,6 +8,7 @@
 local M = {}
 
 local lang = require("pyflowenv.lang").get()
+local highlights = require("pyflowenv.ui.ui_highlights")
 
 local config_dir = vim.fn.expand("~/.config/pyflowenv")
 local file_path = config_dir .. "/list_projects.json"
@@ -189,6 +190,7 @@ function M.show_project_list()
 
   -- FR : Création de la fenêtre flottante
   -- EN : Creation of the floating window
+  highlights.setup_ui_colors()  -- Configure colors
   local win = vim.api.nvim_open_win(buf, true, {
     relative = "editor",
     row = row,
@@ -196,10 +198,13 @@ function M.show_project_list()
     width = width,
     height = height,
     style = "minimal",
-    border = "rounded",
+    border = "double",
     title = lang.ui.title_projects_list,
     title_pos = "center",
   })
+  vim.defer_fn(function()
+    vim.wo[win].winhl = highlights.get_winhl_string()
+  end, 0)
 
   -- FR : Touches : q = quitter, o = ouvrir, d = supprimer
   -- EN : Keys: q = quit, o = open, d = delete
