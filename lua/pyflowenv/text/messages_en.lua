@@ -32,7 +32,7 @@ return {
     git_local = function(msg) return "  ✅ Commit created: \"" .. msg .. "\"" end,
     main_created = "  ✅ main.py created.",
     readme_created = "  ✅ README.md created.",
-
+    project_added = "Project '%s' added to the list",
     project_created = function(name) return "  ✅ Project '" .. name .. "' created." end,
   },
 
@@ -42,9 +42,10 @@ return {
     press_q = "  [q] to quit...",
     prompt = "  🐍 Project name: ",
     rep_choice = "📁 Select a destination directory",
+    select_existing_folder = "Select an existing folder",
     title_projects_list = " projects registered ",
     title_ui = " Python Project Creation ",
-    ui_menu = " [q] quit, [o] open, [d] delete",
+    ui_menu = " [q] quit, [o] open, [d] delete, [a] add existing project",
     waiting = "  ⏳ Please wait while the project is being created...",
     yes_no = "&Yes\n&No",
   },

@@ -10,6 +10,10 @@ local M = {}
 local lang = require("pyflowenv.lang").get()
 local highlights = require("pyflowenv.ui.ui_highlights")
 local utils = require("pyflowenv.utils")
+local actions = require("telescope.actions")
+local action_state = require("telescope.actions.state")
+local fb = require("telescope").extensions.file_browser
+
 
 local config_dir = vim.fn.expand("~/.config/pyflowenv")
 local file_path = config_dir .. "/list_projects.json"
@@ -188,6 +192,52 @@ local function delete_selected_project(win_id, buf_id)
 end
 
 
+-- ***********************************************
+-- * Launch Telescope to add an existing project *
+-- ***********************************************
+local function add_existing_project_from_ui(win_id, buf_id)
+  fb.file_browser({
+    prompt_title = lang.ui.select_existing_folder,
+    path = vim.fn.getcwd(),
+    select_buffer = true,
+    files = false,
+    hidden = false,
+    attach_mappings = function(prompt_bufnr, map)
+      local function on_select()
+        local entry = action_state.get_selected_entry()
+        local path = entry and entry.path or entry.filename
+        if not path or vim.fn.isdirectory(path) == 0 then
+          vim.notify(lang.errors.no_path, vim.log.levels.ERROR)
+          return
+        end
+
+        local name = vim.fn.fnamemodify(path, ":t") -- basename du dossier
+        M.save_project(name, path)
+
+        actions.close(prompt_bufnr)
+        vim.notify(string.format(lang.success.project_added, name), vim.log.levels.INFO)
+
+        -- Fermer l'UI et la rouvrir pour mettre à jour
+        if vim.api.nvim_win_is_valid(win_id) then
+          vim.api.nvim_win_close(win_id, true)
+        end
+        if vim.api.nvim_buf_is_valid(buf_id) then
+          vim.api.nvim_buf_delete(buf_id, { force = true })
+        end
+
+        vim.defer_fn(function()
+          M.show_project_list()
+        end, 100)
+      end
+
+      map("i", "<CR>", on_select)
+      map("n", "<CR>", on_select)
+      return true
+    end,
+  })
+end
+
+
 -- ************************************
 -- * Display the projects saved in UI *
 -- ************************************
@@ -277,6 +327,11 @@ function M.show_project_list()
   vim.keymap.set("n", "d", function()
     delete_selected_project(win, buf)
   end, { buffer = buf, nowait = true })
+
+  vim.keymap.set("n", "a", function()
+    add_existing_project_from_ui(win, buf)
+  end, { buffer = buf, nowait = true })
+
 
   -- FR : Curseur sur la première entrée
   -- EN : Cursor on the first entry
