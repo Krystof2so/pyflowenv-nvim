@@ -1,0 +1,121 @@
+*pyflowenv-fr.txt*      Un plugin Neovim pour créer et gérer des projets Python
+
+==============================================================================
+INTRODUCTION                                                   *pyflowenv-fr*
+
+*pyflowenv-nvim* est un plugin Neovim écrit en Lua qui aide les développeurs Python à :
+
+- Créer rapidement un projet Python avec environnement virtuel et Git
+- Générer une structure classique (`src/`, `tests/`, `assets/`)
+- Créer automatiquement des fichiers utiles (`main.py`, `.gitignore`, `README.md`)
+- Gérer les projets existants via une interface flottante interactive
+- Ajouter des répertoires déjà existants comme projets
+- Utiliser plusieurs langues dans l’interface (français, anglais, espagnol)
+
+==============================================================================
+
+COMMANDES                                                      *pyflowenv-fr-commandes*
+
+Le plugin fournit deux commandes principales :
+
+    :PyflowCreate
+        Lance l’interface interactive pour créer un projet Python.
+        Permet de choisir le dossier de destination via Telescope.
+
+    :PyflowManage
+        Ouvre l’interface de gestion des projets :
+        - Liste les projets enregistrés (triés par date de modification)
+        - Permet d’ouvrir, de supprimer ou d’ajouter un projet
+
+Assurez-vous d’appeler `require("pyflowenv").setup()` dans votre config Neovim
+avant d’utiliser ces commandes.
+
+==============================================================================
+
+CONFIGURATION                                                  *pyflowenv-fr-config*
+
+Ajoutez ceci dans votre configuration Neovim :
+
+>lua
+require("pyflowenv").setup({
+  lang = "fr",        -- Langue de l’interface : "fr", "en", "es"
+  venv_dir = ".venv", -- Nom du dossier pour l’environnement virtuel
+})
+<
+
+Valeurs par défaut :
+- `lang`: `"fr"`
+- `venv_dir`: `".venv"`
+
+==============================================================================
+
+UI DE GESTION DES PROJETS                                     *pyflowenv-fr-ui*
+
+Dans la fenêtre flottante ouverte avec `:PyflowManage`, vous pouvez :
+
+    o     → Ouvrir le projet sélectionné avec NvimTree
+    d     → Supprimer le projet sélectionné
+    a     → Ajouter un projet existant depuis le système de fichiers
+    q     → Quitter l’interface
+
+Chaque projet est affiché avec :
+- Son nom
+- La date de dernière modification au format relatif (ex : "il y a 2 heures")
+
+==============================================================================
+
+FONCTIONNALITÉS                                               *pyflowenv-fr-fonctionnalites*
+
+- 📁 Création de structure de projet minimaliste :
+      .gitignore, .venv/, src/, tests/, assets/, README.md
+
+- 🔍 Intégration Telescope pour la sélection de dossiers
+
+- 🐍 Création automatique d’environnement virtuel avec `python3 -m venv`
+
+- 🌍 Interface multilingue : français, anglais, espagnol
+
+- 🗂️ Interface de gestion des projets :
+    - Liste des projets enregistrés
+    - Dates de modification affichées de façon relative
+    - Ajout de répertoires externes
+    - Ouverture et suppression possibles
+
+- 🎨 Fenêtres flottantes stylisées avec groupes de surbrillance personnalisés
+
+==============================================================================
+
+FICHIERS ET STOCKAGE                                           *pyflowenv-fr-fichiers*
+
+Les projets sont enregistrés dans le fichier :
+
+    ~/.config/pyflowenv/list_projects.json
+
+Chaque entrée contient :
+- Le nom du projet
+- Le chemin d’accès
+- La date de dernière modification
+
+==============================================================================
+
+AUTEUR / CONTRIBUTIONS                                         *pyflowenv-fr-auteur*
+
+Développé par Krystof26
+
+GitHub : https://github.com/Krystof2so/pyflowenv-nvim  
+Licence : MIT
+
+==============================================================================
+
+Index                                                          *pyflowenv-fr-index*
+
+    *pyflowenv-fr*                - Vue d’ensemble du plugin
+    *pyflowenv-fr-commandes*      - Commandes utilisateurs (:PyflowCreate, :PyflowManage)
+    *pyflowenv-fr-config*         - Configuration
+    *pyflowenv-fr-ui*             - Interface et raccourcis
+    *pyflowenv-fr-fonctionnalites*- Liste des fonctionnalités
+    *pyflowenv-fr-fichiers*       - Stockage des projets
+    *pyflowenv-fr-auteur*         - Auteur et dépôt
+
+==============================================================================
+
