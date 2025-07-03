@@ -198,7 +198,7 @@ end
 local function add_existing_project_from_ui(win_id, buf_id)
   fb.file_browser({
     prompt_title = lang.ui.select_existing_folder,
-    path = vim.fn.getcwd(),
+    cwd = vim.fn.expand("~"),  -- Systematic opening in the user’s home 
     select_buffer = true,
     files = false,
     hidden = false,
@@ -256,7 +256,7 @@ function M.show_project_list()
   table.insert(lines, "")  -- Empty line under title
   for _, proj in ipairs(projects) do
     local date = utils.format_relative_time(proj.modified)
-    local line = string.format("• %s    ( %s)", proj.name, date)
+    local line = string.format("  • %s       (%s)", proj.name, date)
     table.insert(lines, line)
     local current_line = #lines
     project_lookup[current_line] = proj  -- Associate project with the line
