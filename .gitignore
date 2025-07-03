@@ -2,4 +2,5 @@
 NOTES.md
 NOTES_DEV.md
 
-
+# Fichiers à exclure :
+doc/tags

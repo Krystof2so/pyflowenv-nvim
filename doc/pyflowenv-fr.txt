@@ -1,3 +1,4 @@
+<lang:fr>
 *pyflowenv-fr.txt*      Un plugin Neovim pour créer et gérer des projets Python
 
 ==============================================================================
