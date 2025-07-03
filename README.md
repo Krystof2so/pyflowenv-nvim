@@ -15,8 +15,14 @@ This plugin is ideal for Python developers who want to **quickly initialize a pr
 - 🐍 Automatically sets up a virtual environment with `python3 -m venv` and initializes a **Git** repository
 - 🧾 Generates `.gitignore` (adapted for Python projects), `main.py`, and `README.md` files
 - 💬 Interactive interface in a **Neovim** *popup* window
-- 🌐 Multilingual support (`fr`, `es`, `en`) with translated messages
-- ⚙️ Configurable option to customize the `venv` folder name
+- 🗂️ Existing project management interface (created or added)
+    - 📋 List of saved projects (sorted by last modification date)
+    - 🕓 Display of last modification date in relative format (2 hours ago, yesterday, 1 month ago...)
+    - 🔍 Open a project with NvimTree (`o`)
+    - ❌ Delete a project (`d`)
+    - ➕ Add an existing project via Telescope (`a`)
+- 🏳️‍🌍 Multilingual support (`fr`, `es`, `en`)
+- ⚙️ Custom configuration: venv folder name, language...
 
 ---
 
@@ -103,7 +109,7 @@ my_project/
 
 ## 🌍 Available Languages
 
-Messages displayed in popup windows can be translated.  
+Messages displayed in *popup* windows can be dynamically translated.  
 Currently supported languages:
 
 - 🇫🇷 French (fr)  
@@ -117,6 +123,7 @@ The choice is made via the option `lang = "en"` in `setup()`.
 ## 🔭 Roadmap (Coming Soon)
 
 - 🧪 Detection and integration with **poetry** or **pyenv**
+- 🔧 Advanced configuration (customizable *templates*)
 
 ---
 

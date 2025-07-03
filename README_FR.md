@@ -27,8 +27,14 @@ sudo apt-get install fd-find
 - 🐍 Génération automatique d’un environnement virtuel avec `python3 -m venv` et d'un dépôt **Git**
 - 🧾 Création des fichiers `.gitignore` (adapté aux projets Python), `main.py` et `README.md`
 - 💬 Interface interactive dans une fenêtre *popup* **Neovim**
-- 🌐 Support multilingue (`fr`, `es`, `en`) avec messages traduits
-- ⚙️ Option configurable pour personnaliser le nom du dossier `venv`
+- 🗂️ Interface de gestion des projets existants (créés ou ajoutés)
+    - 📋 Liste des projets enregistrés (triés par date de modification)
+    - 🕓 Affichage de la date de dernière modification au format relatif (il y a 2 heures, hier, il y a 1 mois...)
+    - 🔍 Ouverture du projet avec NvimTree (o)
+    - ❌ Suppression d’un projet (d)
+    - ➕ Ajout d’un projet existant via Telescope (a)
+- 🏳️‍🌍 Support multilingue (`fr`, `es`, `en`)
+- ⚙️ Configuration personnalisée : nom du dossier venv, langue...
 
 ---
 
@@ -104,7 +110,7 @@ mon-projet/
 
 ## 🌍 Langues disponibles
 
-Les messages affichés dans les fenêtres *popup* peuvent être traduits.
+Les messages affichés dans les fenêtres *popup* peuvent être traduits dynamiquement.
 Langues actuellement supportées :
 
 - 🇫🇷 Français (fr)
@@ -118,6 +124,7 @@ Le choix se réalise via l'option `lang = "en"` dans `setup()`.
 ## 🔭 Feuille de route (à venir)
 
 - 🧪 Détection et intégration avec **poetry** ou **pyenv**
+- 🔧 Configuration plus poussée (*templates* personnalisables)
 
 ---
 
