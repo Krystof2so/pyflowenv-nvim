@@ -1,0 +1,121 @@
+*pyflowenv.txt*      A Neovim plugin to create and manage Python projects
+
+==============================================================================
+INTRODUCTION                                                   *pyflowenv*
+
+*pyflowenv-nvim* is a Neovim plugin written in Lua that helps Python developers:
+
+- Quickly scaffold a new Python project with virtualenv and Git
+- Create standard folder structures (`src/`, `tests/`, `assets/`)
+- Generate useful starter files (`main.py`, `.gitignore`, `README.md`)
+- Manage existing projects via an interactive floating UI
+- Add external directories as projects
+- Use multiple languages in the UI (English, French, Spanish)
+
+==============================================================================
+
+COMMANDS                                                       *pyflowenv-commands*
+
+The plugin provides two user-facing commands:
+
+    :PyflowCreate
+        Launches the interactive interface to create a new Python project.
+        Lets you choose the destination folder via Telescope.
+
+    :PyflowManage
+        Opens the project management interface:
+        - Lists saved projects (sorted by last modified date)
+        - Allows opening, deleting, or adding projects
+
+Make sure to call `require("pyflowenv").setup()` in your Neovim config
+before using these commands.
+
+==============================================================================
+
+SETUP / CONFIGURATION                                          *pyflowenv-config*
+
+Add this in your Neovim config:
+
+>lua
+require("pyflowenv").setup({
+  lang = "en",        -- Interface language: "en", "fr", "es"
+  venv_dir = ".venv", -- Folder name for the virtual environment
+})
+<
+
+Default values:
+- `lang`: `"fr"`
+- `venv_dir`: `".venv"`
+
+==============================================================================
+
+PROJECT MANAGEMENT UI                                          *pyflowenv-ui*
+
+Inside the project management popup (triggered with `:PyflowManage`), you can:
+
+    o     → Open the selected project in NvimTree
+    d     → Delete the selected project
+    a     → Add an existing directory as a project
+    q     → Quit the interface
+
+Each project is shown with:
+- Its name
+- The relative last modified time (e.g., "2 hours ago", "yesterday", etc.)
+
+==============================================================================
+
+FEATURES                                                       *pyflowenv-features*
+
+- 📁 Create a minimal Python project with:
+      .gitignore, .venv/, src/, tests/, assets/, README.md
+
+- 🔍 Telescope integration for selecting directories interactively
+
+- 🐍 Automatic virtual environment creation via `python3 -m venv`
+
+- 🌍 Multilingual UI: English, French, Spanish
+
+- 🗂️ Project management interface:
+    - List saved projects
+    - Relative last modified timestamps
+    - Add external folders
+    - Open or delete entries
+
+- 🎨 Styled floating windows with custom highlight groups
+
+==============================================================================
+
+FILES & STORAGE                                                *pyflowenv-files*
+
+Saved projects are stored in:
+
+    ~/.config/pyflowenv/list_projects.json
+
+Each entry includes:
+- Project name
+- Path
+- Last modification date
+
+==============================================================================
+
+CONTRIBUTING / AUTHOR                                           *pyflowenv-contrib*
+
+Created by Krystof26
+
+GitHub: https://github.com/Krystof2so/pyflowenv-nvim  
+License: MIT
+
+==============================================================================
+
+Index                                                           *pyflowenv-index*
+
+    *pyflowenv*               - Plugin overview
+    *pyflowenv-commands*      - User commands (:PyflowCreate, :PyflowManage)
+    *pyflowenv-config*        - Setup and configuration options
+    *pyflowenv-ui*            - UI key bindings and behavior
+    *pyflowenv-features*      - Full feature list
+    *pyflowenv-files*         - JSON storage location and structure
+    *pyflowenv-contrib*       - Author and repository
+
+==============================================================================
+
