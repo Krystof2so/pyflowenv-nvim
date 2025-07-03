@@ -47,7 +47,7 @@ end
 -- * User commands *
 -- *****************
 -- :CreatePythonVenv
-vim.api.nvim_create_user_command("CreatePythonVenv", function()
+vim.api.nvim_create_user_command("PyflowCreate", function()
     local lang = lang_module.get()
     -- FR : Initialiser le fichier de projets si nécessaire
     -- EN : Initialize the project file if necessary
@@ -87,7 +87,7 @@ vim.api.nvim_create_user_command("CreatePythonVenv", function()
 end, {})
 
 -- :ListPythonProjects
-vim.api.nvim_create_user_command("ListPythonProjects", function()
+vim.api.nvim_create_user_command("PyflowManage", function()
   manager.show_project_list()
 end, {})
 

@@ -22,12 +22,12 @@ sudo apt-get install fd-find
 
 ## ✨ Fonctionnalités
 
-- 📁 Création d’un répertoire et d'une architecture pour le projet
+- 📁 Création d’un répertoire et d'une architecture pour le projet (commande `:PyflowCreate`)
 - 📂 Sélection interactive du répertoire de destination avec **Telescope**
 - 🐍 Génération automatique d’un environnement virtuel avec `python3 -m venv` et d'un dépôt **Git**
 - 🧾 Création des fichiers `.gitignore` (adapté aux projets Python), `main.py` et `README.md`
 - 💬 Interface interactive dans une fenêtre *popup* **Neovim**
-- 🗂️ Interface de gestion des projets existants (créés ou ajoutés)
+- 🗂️ Interface de gestion des projets existants (créés ou ajoutés - Commande `:PyflowManage`)
     - 📋 Liste des projets enregistrés (triés par date de modification)
     - 🕓 Affichage de la date de dernière modification au format relatif (il y a 2 heures, hier, il y a 1 mois...)
     - 🔍 Ouverture du projet avec NvimTree (o)

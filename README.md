@@ -10,12 +10,12 @@ This plugin is ideal for Python developers who want to **quickly initialize a pr
 
 ## ✨ Features
 
-- 📁 Creates a project directory and recommended architecture
+- 📁 Creates a project directory and recommended architecture (Command `:PyflowCreate`)
 - 📂 Interactive selection of the destination directory with **Telescope**
 - 🐍 Automatically sets up a virtual environment with `python3 -m venv` and initializes a **Git** repository
 - 🧾 Generates `.gitignore` (adapted for Python projects), `main.py`, and `README.md` files
 - 💬 Interactive interface in a **Neovim** *popup* window
-- 🗂️ Existing project management interface (created or added)
+- 🗂️ Existing project management interface (created or addedi - Command `:PyflowManage`)
     - 📋 List of saved projects (sorted by last modification date)
     - 🕓 Display of last modification date in relative format (2 hours ago, yesterday, 1 month ago...)
     - 🔍 Open a project with NvimTree (`o`)
