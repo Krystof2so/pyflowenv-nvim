@@ -86,6 +86,14 @@ require("pyflowenv").setup({
 ```
 ---
 
+## 📘 Help
+Après l'installation, vous pouvez accéder à la documentation du plugin avec :
+
+```
+:help pyflowenv-fr
+```
+---
+
 ## 📂 Structure générée
 
 ```
