@@ -28,13 +28,11 @@ local manager = require("pyflowenv.manage_projects")
 -- FR : Permet à l'utilisateur de surcharger la configuration via require("pyflowenv").setup({...})
 -- EN : Allows the user to override the configuration via require(“pyflowenv”).setup({...})
 ---@class PyflowOptions
----@field venv_dir string Name of the virtual environment folder
----@field lang "fr"|"en"|"es" interface language
 
 ---@type PyflowOptions
 M.options = {
-  venv_dir = ".venv",
-  lang = "fr",
+  venv_dir = ".venv",  -- string: Name of virtual environment folder
+  lang = "fr",  -- "fr"|"en"|"es": Interface language
 }
 
 -- FR : Setup utilisateur

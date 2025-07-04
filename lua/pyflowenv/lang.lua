@@ -15,51 +15,49 @@
 -- EN : Local table M that will contain the exported functions of the module.
 local M = {}
 
-local current_lang = "fr"  -- Default language
-
--- FR : Table de correspondance langue → module
--- EN : Language → module correspondence table
-local map = {
+-- FR : Langues disponibles et leurs modules de message
+-- EN : Available languages and their message modules
+local LANG_MAP = {
   fr = "pyflowenv.text.messages_fr",
   en = "pyflowenv.text.messages_en",
   es = "pyflowenv.text.messages_es",
 }
 
+---@type string
+M.current_lang = "fr"  -- by default
 
--- ********************
--- * Function setup() *
--- ********************
+
+-- ******************
+-- * Setup language *
+-- ******************
 -- FR : Définit la langue courante que le plugin doit utiliser.
 -- EN : Sets the default language that the plugin should use.
 ---@param lang string Langue au format "fr", "es", etc.
 function M.setup(lang)
-  if type(lang) == "string" and map[lang] then
-    current_lang = lang  -- if check type --> update 'current lang'
+  if LANG_MAP[lang] then
+    M.current_lang = lang  -- if check type --> update 'current lang'
   else
     vim.notify( -- Otherwise: displays a warning notification
-      "[pyflowenv] Langue inconnue. Utilisation du français par défaut.",
+      "[pyflowenv] Langue inconnue. Utilisation du français par défaut.\n[pyflowenv] Unknown language. Defaulting to French.",
       vim.log.levels.WARN
     )
-    current_lang = "fr"  -- Default language
+    M.current_lang = "fr"  -- Default language
   end
 end
-
-
---- FR : Récupère les messages traduits pour la langue courante.
---- EN : Retrieves the messages translated for the current language.
----@return table
 
 
 -- ******************
 -- * Function get() *
 -- ******************
--- FR : Utilise 'pcall(require, module_name)' pour tenter de charger le module de messages lié à 'current_lang'.
--- EN : Use 'pcall(require, module_name)' to attempt to load the message module associated with 'current_lang'.
+-- FR : Retourner la table des messages traduits
+-- EN : Return translated messages table
+---@return table
 function M.get()
-  local ok, messages = pcall(require, map[current_lang] or map.fr)
+  local module_path = LANG_MAP[M.current_lang] or LANG_MAP.fr
+  local ok, messages = pcall(require, module_path)
   if not ok then  -- if loading fails
     vim.notify(
-      "[pyflowenv] Erreur de chargement des messages. Repli sur le français.",
+      "[pyflowenv] Erreur de chargement des messages. Repli sur le français.\n[pyflowenv] Failed to load translations. Falling back to French.",
       vim.log.levels.WARN
     )
     messages = require("pyflowenv.text.messages_fr")

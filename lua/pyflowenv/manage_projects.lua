@@ -215,7 +215,7 @@ local function add_existing_project_from_ui(win_id, buf_id)
         M.save_project(name, path)
 
         actions.close(prompt_bufnr)
-        vim.notify(string.format(lang.success.project_added, name), vim.log.levels.INFO)
+        vim.notify(lang.success.project_added(name), vim.log.levels.INFO)
 
         -- Fermer l'UI et la rouvrir pour mettre à jour
         if vim.api.nvim_win_is_valid(win_id) then

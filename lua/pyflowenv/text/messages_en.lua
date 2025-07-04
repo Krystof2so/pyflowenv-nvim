@@ -25,15 +25,15 @@ return {
   },
 
   success = {
-    dir_created = function(path) return "  📂 Directory created: " .. path end,
+    dir_created = function(path) return string.format("  📂 Directory created: %s", path) end,
     venv_created = "  ✅ Virtual environment created.",
     gitignore_created = "  ✅ .gitignore file created.",
     git_initialized = "  ✅ Git repository initialized.",
-    git_local = function(msg) return "  ✅ Commit created: \"" .. msg .. "\"" end,
+    git_local = function(msg) return string.format("  ✅ Commit performed: \"%s\"", msg) end,
     main_created = "  ✅ main.py created.",
     readme_created = "  ✅ README.md created.",
-    project_added = "Project '%s' added to the list",
-    project_created = function(name) return "  ✅ Project '" .. name .. "' created." end,
+    project_added = function(name) return string.format("  ✅ Project \"%s\" added to the list.", name) end,
+    project_created = function(name) return string.format("  ✅ Project \"%s\" created.", name) end,
   },
 
   ui = {
