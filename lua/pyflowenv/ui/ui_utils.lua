@@ -13,6 +13,13 @@ local M = {}
 local hl = require("pyflowenv.ui.ui_highlights")
 
 
+-- ********************
+-- * Display messages *
+-- ********************
+function M.notify(msg, level)
+  vim.notify(msg, level or vim.log.levels.INFO)
+end
+
 -- **********************************
 -- * Function get_centered_coords() *
 -- **********************************
