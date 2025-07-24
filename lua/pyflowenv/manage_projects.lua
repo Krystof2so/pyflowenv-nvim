@@ -8,18 +8,16 @@
 local M = {}
 
 local lang = require("pyflowenv.lang").get()
-local highlights = require("pyflowenv.ui.ui_highlights")
-local utils = require("pyflowenv.utils")
-local actions = require("telescope.actions")
-local action_state = require("telescope.actions.state")
+local highlights = require "pyflowenv.ui.ui_highlights"
+local utils = require "pyflowenv.utils"
+local actions = require "telescope.actions"
+local action_state = require "telescope.actions.state"
 local fb = require("telescope").extensions.file_browser
 
-
-local config_dir = vim.fn.expand("~/.config/pyflowenv")
+local config_dir = vim.fn.expand "~/.config/pyflowenv"
 local file_path = config_dir .. "/list_projects.json"
 
-local project_lookup = {}  -- table : line → project)
-
+local project_lookup = {} -- table : line → project)
 
 -- *****************************************
 -- * Savce projetc in 'projects_list.json' *
@@ -29,7 +27,7 @@ local project_lookup = {}  -- table : line → project)
 function M.save_project(name, path)
   local content = vim.fn.readfile(file_path)
   local projects = {}
-  local now = os.date("%Y-%m-%d %H:%M:%S")  -- Add date
+  local now = os.date "%Y-%m-%d %H:%M:%S" -- Add date
 
   if content and #content > 0 then
     local ok, decoded = pcall(vim.fn.json_decode, table.concat(content, "\n"))
@@ -64,7 +62,6 @@ function M.save_project(name, path)
   end
 end
 
-
 -- **********************************
 -- * Return table of saved projects *
 -- **********************************
@@ -85,13 +82,12 @@ local function get_projects()
   return decoded
 end
 
-
 -- *******************************************************
 -- * Update the modification date of an existing project *
 -- *******************************************************
 local function update_modified_date(name, path)
   local projects = get_projects()
-  local now = os.date("%Y-%m-%d %H:%M:%S")
+  local now = os.date "%Y-%m-%d %H:%M:%S"
 
   for _, proj in ipairs(projects) do
     if proj.name == name and proj.path == path then
@@ -114,7 +110,6 @@ local function update_modified_date(name, path)
     vim.notify(lang.errors.no_write_in_json, vim.log.levels.ERROR)
   end
 end
-
 
 -- ******************************************************
 -- * Removes a project from the list_projects.json file *
@@ -140,7 +135,6 @@ local function delete_project(name, path)
     vim.notify(lang.errors.failed_record_changes, vim.log.levels.ERROR)
   end
 end
-
 
 -- ********************************************************
 -- * Open project path using nvim-tree (triggered by 'o') *
@@ -169,7 +163,6 @@ local function open_selected_project(win_id, buf_id)
   vim.cmd("NvimTreeOpen " .. proj.path)
 end
 
-
 -- ************************************************
 -- * Delete a project via the 'd' key from the UI *
 -- ************************************************
@@ -178,7 +171,9 @@ local function delete_selected_project(win_id, buf_id)
   local row = cursor[1]
   local proj = project_lookup[row]
 
-  if not proj or not proj.name or not proj.path then return end
+  if not proj or not proj.name or not proj.path then
+    return
+  end
 
   local confirm = vim.fn.confirm(lang.ui.delete_project .. proj.name .. "' ?", lang.ui.yes_no, 2)
   if confirm == 1 then
@@ -191,14 +186,13 @@ local function delete_selected_project(win_id, buf_id)
   end
 end
 
-
 -- ***********************************************
 -- * Launch Telescope to add an existing project *
 -- ***********************************************
 local function add_existing_project_from_ui(win_id, buf_id)
-  fb.file_browser({
+  fb.file_browser {
     prompt_title = lang.ui.select_existing_folder,
-    cwd = vim.fn.expand("~"),  -- Systematic opening in the user’s home 
+    cwd = vim.fn.expand "~", -- Systematic opening in the user’s home
     select_buffer = true,
     files = false,
     hidden = false,
@@ -234,9 +228,8 @@ local function add_existing_project_from_ui(win_id, buf_id)
       map("n", "<CR>", on_select)
       return true
     end,
-  })
+  }
 end
-
 
 -- ************************************
 -- * Display the projects saved in UI *
@@ -253,15 +246,15 @@ function M.show_project_list()
   -- EN : Prepare the buffer lines
   local lines = {}
   project_lookup = {}
-  table.insert(lines, "")  -- Empty line under title
+  table.insert(lines, "") -- Empty line under title
   for _, proj in ipairs(projects) do
     local date = utils.format_relative_time(proj.modified)
     local line = string.format("  • %s       (%s)", proj.name, date)
     table.insert(lines, line)
     local current_line = #lines
-    project_lookup[current_line] = proj  -- Associate project with the line
+    project_lookup[current_line] = proj -- Associate project with the line
   end
-  table.insert(lines, "")  -- Empty lines
+  table.insert(lines, "") -- Empty lines
   table.insert(lines, "")
   table.insert(lines, lang.ui.ui_menu)
 
@@ -282,7 +275,7 @@ function M.show_project_list()
         -1,
         highlights.highlight_defaults.ProjectName.name,
         line_num - 1,
-        start_col -1,
+        start_col - 1,
         end_col
       )
     end
@@ -298,7 +291,7 @@ function M.show_project_list()
 
   -- FR : Création de la fenêtre flottante
   -- EN : Creation of the floating window
-  highlights.setup_ui_colors()  -- Configure colors
+  highlights.setup_ui_colors() -- Configure colors
   local win = vim.api.nvim_open_win(buf, true, {
     relative = "editor",
     row = row,
@@ -332,11 +325,9 @@ function M.show_project_list()
     add_existing_project_from_ui(win, buf)
   end, { buffer = buf, nowait = true })
 
-
   -- FR : Curseur sur la première entrée
   -- EN : Cursor on the first entry
   vim.api.nvim_win_set_cursor(win, { 2, 0 }) -- line 3 = first line project
 end
 
 return M
-

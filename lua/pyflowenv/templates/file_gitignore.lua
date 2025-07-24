@@ -5,7 +5,7 @@
 local M = {}
 
 function M.default_gitignore(venv_dir)
-    return [[
+  return [[
 # Environnement virtuel :
 ]] .. venv_dir .. [[
 

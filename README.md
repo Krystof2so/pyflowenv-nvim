@@ -81,6 +81,11 @@ Add the plugin to your **Lazy** plugin list, along with **Telescope** if it is n
 require("pyflowenv").setup({
   venv_dir = ".venv", -- virtual environment folder (default)
   lang = "en",        -- language : "fr", "en", "es"
+  highlights = flt-- Color customization
+    FloatBorder = { fg = "#88c0d0" },   -- Floating window border
+    FloatTitle  = { fg = "#f2cc81", bold = true }, -- Windows title
+    ProjectName = { fg = "#b8cc8c", bold = true }, -- Project names
+  },
 })
 ```
 ---

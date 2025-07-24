@@ -28,7 +28,9 @@ local manager = require("pyflowenv.manage_projects")
 -- FR : Permet à l'utilisateur de surcharger la configuration via require("pyflowenv").setup({...})
 -- EN : Allows the user to override the configuration via require(“pyflowenv”).setup({...})
 ---@class PyflowOptions
-
+---@field venv_dir string
+---@field lang '"fr"'|'"en"'|'"es"'
+---@field highlights? table<string, { fg?: string, bg?: string, bold?: boolean }>
 ---@type PyflowOptions
 M.options = {
   venv_dir = ".venv",  -- string: Name of virtual environment folder
@@ -43,7 +45,11 @@ function M.setup(opts)
   -- FR : Configuration de la langue (doit être appelée ici pour que get() reflète la bonne langue).
   -- EN : Language configuration (must be called here for get() to reflect the correct language).
   lang_module.setup(M.options.lang)
+
+  local highlights = require("pyflowenv.ui.ui_highlights")
+  highlights.setup_ui_colors(M.options.highlights or {}) -- ⬅️ ICI : applique la config utilisateur
 end
+
 
 
 -- **********************************************************

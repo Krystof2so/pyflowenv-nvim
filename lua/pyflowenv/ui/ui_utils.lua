@@ -8,10 +8,8 @@
 -- ** - Calculating dimensions, opening windows, styling, etc.  **
 -- ***************************************************************
 
-
 local M = {}
-local hl = require("pyflowenv.ui.ui_highlights")
-
+local hl = require "pyflowenv.ui.ui_highlights"
 
 -- ********************
 -- * Display messages *
@@ -30,7 +28,6 @@ function M.get_centered_coords(width, height)
   local col = math.floor((vim.o.columns - width) / 2)
   return row, col
 end
-
 
 -- ****************************
 -- * Function create_window() *
@@ -57,6 +54,4 @@ function M.create_window(buf, opts)
   return win
 end
 
-
 return M
-

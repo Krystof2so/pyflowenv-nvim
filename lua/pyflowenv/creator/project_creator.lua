@@ -10,19 +10,16 @@
 -- EN : Avoiding false positives in the Language Server Protocol: ‘vim.loop.fs_stat’.
 ---@diagnostic disable: undefined-field
 
-
 local M = {}
-local ui = require("pyflowenv.ui.ui_init")
-local utils = require("pyflowenv.utils")
-local gitignore_template = require("pyflowenv.templates.file_gitignore")
+local ui = require "pyflowenv.ui.ui_init"
+local utils = require "pyflowenv.utils"
+local gitignore_template = require "pyflowenv.templates.file_gitignore"
 local lang = require("pyflowenv.lang").get()
-
 
 local function dir_exists(path)
   local stat = vim.loop.fs_stat(path)
   return stat and stat.type == "directory"
 end
-
 
 -- FR : Crée la structure de projet Python
 -- EN : Create the Python project structure
@@ -83,7 +80,7 @@ if __name__ == '__main__':
   -- Step 4
   -- FR : Création README.md
   -- EN : Create README.md
-  local readme = io.open(project_dir.. "/README.md", "w")
+  local readme = io.open(project_dir .. "/README.md", "w")
   if readme then
     readme:write("# " .. project_name:gsub("%-", " "))
     readme:close()
@@ -131,7 +128,7 @@ if __name__ == '__main__':
       return false
     end
   end
-  ui.append_lines(buf, { lang.success.git_local("initial commit") })
+  ui.append_lines(buf, { lang.success.git_local "initial commit" })
 
   -- Fin
   ui.append_lines(buf, {
@@ -141,8 +138,7 @@ if __name__ == '__main__':
     lang.ui.press_q,
   })
 
-  return true  -- If all the steps have been completed
+  return true -- If all the steps have been completed
 end
-
 
 return M

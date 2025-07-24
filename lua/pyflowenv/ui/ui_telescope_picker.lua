@@ -24,14 +24,14 @@ local function select_directory(callback)
     return
   end
 
-  telescope.extensions.file_browser.file_browser({
+  telescope.extensions.file_browser.file_browser {
     prompt_title = lang.ui.rep_choice,
     path = vim.loop.os_homedir(),
     cwd = vim.loop.os_homedir(),
-    hidden = false,                 -- Do not include hidden files 
-    files = false,                  --  Does not show files
-    depth = false,                      --  Don't go into subfolders
-    previewer = false,              --  Disables the preview window
+    hidden = false, -- Do not include hidden files
+    files = false, --  Does not show files
+    depth = false, --  Don't go into subfolders
+    previewer = false, --  Disables the preview window
     grouped = false,
     hijack_netrw = true,
     select_buffer = true,
@@ -48,10 +48,9 @@ local function select_directory(callback)
       end)
       return true
     end,
-  })
+  }
 end
 
 M.select_directory = select_directory
 
 return M
-
